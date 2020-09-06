@@ -9,21 +9,32 @@ import (
 )
 
 type User struct {
-	ID       uint64  `json:"id" db:"id"`
-	Name     string  `json:"name" db:"name"`
-	Username string  `json:"username" db:"username"`
-	Password string  `json:"-" db:"password"`
-	TeamID   *uint64 `json:"teamId" db:"team"`
+	ID             uint64  `json:"id" db:"id"`
+	Name           string  `json:"name" db:"name"`
+	Username       string  `json:"username" db:"username"`
+	HashedPassword string  `db:"hashedPassword" json:"-"`
+	Password       string  `json:"password" db:"-"`
+	TeamID         *uint64 `json:"teamId" db:"team"`
 
 	Team *Team `json:"team,omitempty"`
 }
 
 func (u *User) ValidatePassword(password string) bool {
-	if err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(u.HashedPassword), []byte(password)); err != nil {
 		log.Println("Password validation failed", " <- ", err)
 		return false
 	}
 	return true
+}
+
+func (u *User) CreatePassword(password string) error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
+	if err != nil {
+		log.Println("Could not generate password", " : ", err)
+		return err
+	}
+	u.HashedPassword = string(hash)
+	return nil
 }
 
 func (u *User) GenerateToken(sugar string) (string, error) {

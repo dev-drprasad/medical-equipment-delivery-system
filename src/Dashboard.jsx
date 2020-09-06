@@ -1,9 +1,7 @@
 import "./Dashboard.scss";
 
-import Icon, {
-  DesktopOutlined,
+import {
   LogoutOutlined,
-  UserOutlined,
   UserAddOutlined,
   ShoppingCartOutlined,
   SettingOutlined,
@@ -26,17 +24,35 @@ function Dashboard({ children, logout }) {
     >
       <Sider>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={["patients"]} defaultOpenKeys={["administration"]} mode="inline">
-          <Menu.Item key="patients" icon={<UserAddOutlined style={{ fontSize: 20 }} />}>
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["patients"]}
+          defaultOpenKeys={["administration"]}
+          mode="inline"
+        >
+          <Menu.Item
+            key="patients"
+            icon={<UserAddOutlined style={{ fontSize: 20 }} />}
+          >
             <Link to="">Patients</Link>
           </Menu.Item>
-          <Menu.Item key="orders" icon={<ShoppingCartOutlined style={{ fontSize: 20 }} />}>
+          <Menu.Item
+            key="orders"
+            icon={<ShoppingCartOutlined style={{ fontSize: 20 }} />}
+          >
             <Link to="orders">Orders</Link>
           </Menu.Item>
-          <Menu.Item key="delivery-tech" icon={<GiftOutlined style={{ fontSize: 20 }} />}>
+          <Menu.Item
+            key="delivery-tech"
+            icon={<GiftOutlined style={{ fontSize: 20 }} />}
+          >
             <Link to="delivery">Delivery Tech</Link>
           </Menu.Item>
-          <SubMenu key="administration" icon={<SettingOutlined style={{ fontSize: 18 }} />} title="Administration">
+          <SubMenu
+            key="administration"
+            icon={<SettingOutlined style={{ fontSize: 18 }} />}
+            title="Administration"
+          >
             <Menu.Item key="physicians">
               <Link to="physicians">Physicians</Link>
             </Menu.Item>
@@ -53,7 +69,11 @@ function Dashboard({ children, logout }) {
               <Link to="teams">Teams</Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="logout" icon={<LogoutOutlined style={{ fontSize: 18 }} />} onClick={logout}>
+          <Menu.Item
+            key="logout"
+            icon={<LogoutOutlined style={{ fontSize: 18 }} />}
+            onClick={logout}
+          >
             Logout
           </Menu.Item>
         </Menu>

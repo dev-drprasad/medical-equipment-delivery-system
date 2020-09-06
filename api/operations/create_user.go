@@ -8,7 +8,6 @@ import (
 	"breath-right-one/api/models"
 
 	"github.com/jmoiron/sqlx"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func CreateUser(db *sqlx.DB) http.Handler {
@@ -21,15 +20,15 @@ func CreateUser(db *sqlx.DB) http.Handler {
 			return
 		}
 
-		hash, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.MinCost)
+		err := u.CreatePassword(u.Password)
 		if err != nil {
 			log.Println("Could not create user", " : ", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		u.Password = string(hash)
 
-		result, err := db.Exec(`INSERT INTO user(name, username, password, team) VALUES(?, ?, ?, ?)`, &u.Name, &u.Username, &u.Password, &u.TeamID)
+		u.Password = ""
+		result, err := db.Exec(`INSERT INTO user(name, username, password, team) VALUES(?, ?, ?, ?)`, &u.Name, &u.Username, &u.HashedPassword, &u.TeamID)
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

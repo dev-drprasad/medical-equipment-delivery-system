@@ -9,11 +9,6 @@ CREATE TABLE `patient` (
   PRIMARY KEY (`accountId`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
--- ALTER TABLE `patient` DROP `insuredBy`;
-ALTER TABLE `patient` ADD COLUMN `insuredBy` int(6) unsigned NULL AFTER `birthDate`;
-ALTER TABLE `patient` ADD FOREIGN KEY (`insuredBy`) REFERENCES insurer(`id`) ON DELETE RESTRICT;
-
-
 CREATE TABLE `insurer` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
@@ -23,6 +18,11 @@ CREATE TABLE `insurer` (
   `phoneNumber` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
+
+-- ALTER TABLE `patient` DROP `insuredBy`;
+ALTER TABLE `patient` ADD COLUMN `insuredBy` int(6) unsigned NULL AFTER `birthDate`;
+ALTER TABLE `patient` ADD FOREIGN KEY (`insuredBy`) REFERENCES insurer(`id`) ON DELETE RESTRICT;
+
 
 CREATE TABLE `physician` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -60,7 +60,7 @@ CREATE TABLE `user` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   `username` varchar(60) NOT NULL,
-  `password` varchar(72) NOT NULL,
+  `hashedPassword` varchar(72) NOT NULL,
   `team` int(6) unsigned NOT NULL,
   FOREIGN KEY (`team`) REFERENCES team(`id`) ON DELETE RESTRICT,
   PRIMARY KEY (`id`)
@@ -79,27 +79,24 @@ CREATE TABLE `comment` (
   PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
-ALTER TABLE `comment` CHANGE `createdAt` `createdAt` TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP NOT NULL;
+ALTER TABLE `comment` CHANGE `createdAt` `createdAt` TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP(3) NOT NULL;
 
 
 
-INSERT INTO `patient` (`firstName`, `lastName`, `phoneNumber`, `address`, `zipcode`, `birthDate`) VALUES
-('Reddy 1', 'Prasad 1', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', '517123', '1994-06-12'),
-('Reddy 2', 'Prasad 2', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', '517123', NULL),
-('Reddy 3', 'Prasad 3', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', '517123', '1994-06-12'),
-('Reddy 4', 'Prasad 4', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', '517123', '1994-06-12'),
-('Reddy 5', 'Prasad 5', '8884223357', NULL, '517123', NULL),
-('Reddy 6', 'Prasad 6', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', NULL, '1994-06-12'),
+-- INSERT INTO `patient` (`firstName`, `lastName`, `phoneNumber`, `address`, `zipcode`, `birthDate`) VALUES
+-- ('Reddy 1', 'Prasad 1', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', '517123', '1994-06-12'),
+-- ('Reddy 2', 'Prasad 2', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', '517123', NULL),
+-- ('Reddy 3', 'Prasad 3', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', '517123', '1994-06-12'),
+-- ('Reddy 4', 'Prasad 4', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', '517123', '1994-06-12'),
+-- ('Reddy 5', 'Prasad 5', '8884223357', NULL, '517123', NULL),
+-- ('Reddy 6', 'Prasad 6', '8884223357', '1-125, Brahmana Street, Sadum, Chittoor', NULL, '1994-06-12'),
 
-INSERT INTO `order` (`orderedBy`, `insuredBy`, `prescribedBy`, `status`) VALUES (16, 2, 1, 'INIT');
 
-SELECT SUBSTRING(COLUMN_TYPE,5)
-FROM information_schema.COLUMNS
-WHERE TABLE_SCHEMA='breath_right_one' 
-    AND TABLE_NAME='team'
-    AND COLUMN_NAME='role';
-
-ALTER TABLE comment CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- SELECT SUBSTRING(COLUMN_TYPE,5)
+-- FROM information_schema.COLUMNS
+-- WHERE TABLE_SCHEMA='breath_right_one' 
+--     AND TABLE_NAME='team'
+--     AND COLUMN_NAME='role';
 
 CREATE TABLE equipment (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
@@ -140,3 +137,6 @@ CREATE TABLE `document` (
 
 
 -- PRIMARY KEY (person_id,property_id),
+
+INSERT INTO `team` (`name`, `role`) VALUES ('Administrator', 'admin');
+INSERT INTO `user` (`name`, `username`, `hashedPassword`, `team`) VALUES ('Admin', 'admin', '$2a$04$lk0A/IXZ7if6etGrlBspQuobYD.yaH5fr3tXR4019P.CnsD06z2x6', 1);

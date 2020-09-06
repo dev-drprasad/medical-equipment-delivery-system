@@ -51,10 +51,13 @@ services:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     container_name: ${COMPOSE_PROJECT_NAME}-db
+    volumes:
+      - ${PWD}/db.cnf:/etc/mysql/conf.d/db.cnf
+      - ${PWD}/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
     healthcheck:
-      test: mysqladmin ping -h localhost -u ${DB_USER} --password=${DB_PASSWORD}
-      timeout: 10s
+      test: mysqladmin ping -h localhost -u ${DB_USER} --password=${DB_PASSWORD} --silent
+      timeout: 20s
     networks:
       - bro
 

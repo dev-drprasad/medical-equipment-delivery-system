@@ -12,7 +12,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 ARG RBO_UI_RBO_API_BASE_URL
 
 COPY . /app
-RUN npm run build
+RUN npm run build --production
 
 # production environment
 FROM fholzer/nginx-brotli:v1.16.0
