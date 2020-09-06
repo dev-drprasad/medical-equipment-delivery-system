@@ -13,7 +13,6 @@ import Icon, {
 import { Link } from "@reach/router";
 import { Layout, Menu } from "antd";
 import React from "react";
-import { ReactComponent as PatientIcon } from "shared/icons/patient.svg";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
