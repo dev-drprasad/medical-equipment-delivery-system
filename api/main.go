@@ -45,6 +45,9 @@ func authCheck(next http.Handler) http.Handler {
 		header := r.Header.Get("Authorization")
 		tokenStr := strings.TrimPrefix(header, "Bearer ")
 		if tokenStr == "" {
+			tokenStr = r.URL.Query().Get("__token")
+		}
+		if tokenStr == "" {
 			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 			return
 		}
@@ -101,10 +104,14 @@ func main() {
 	secure.Handle("/v1/teams", operations.CreateTeam(db)).Methods("POST")
 	secure.Handle("/v1/users", operations.GetUsers(db)).Methods("GET")
 	secure.Handle("/v1/users", operations.CreateUser(db)).Methods("POST")
+	secure.Handle("/v1/sales-users", operations.GetSalesUsers(db)).Methods("GET")
 	secure.Handle("/v1/roles", operations.GetRoles(db)).Methods("GET")
 	secure.Handle("/v1/equipments", operations.GetEquipments(db)).Methods("GET")
 	secure.Handle("/v1/equipments", operations.AddEquipment(db)).Methods("POST")
 	secure.Handle("/v1/orderstatuses", operations.GetOrderStatuses(db)).Methods("GET")
+
+	documentDir := "/document/"
+	secure.PathPrefix(documentDir).Handler(http.StripPrefix("/api"+documentDir, http.FileServer(http.Dir("."+documentDir))))
 
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS", "DELETE"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"jwt", "build", "Content-Type", "content-type"})

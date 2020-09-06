@@ -14,9 +14,6 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
-const ruleRequired = [{ required: true }];
-const formItemInlineStyle = { display: "inline-block", width: "calc(50% - 8px)" };
-
 function useOrderCreate() {
   const [order, setOrder] = useState(undefined);
   const args = useMemo(
@@ -55,16 +52,28 @@ function OrderCreate({ navigate }) {
     value: accountId,
     label: firstName + " " + lastName,
   }));
-  const physicianOptions = physicians.map(({ id, name }) => ({ value: id, label: name }));
-  const insurerOptions = insurers.map(({ id, name }) => ({ value: id, label: name }));
+  const physicianOptions = physicians.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
+  const insurerOptions = insurers.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
   const equipmentOptions = equipments.map(({ id, name, code, setPrice }) => ({
     value: id,
     label: `${code} ${name} ($${setPrice})`,
   }));
-  const statusOptions = orderstatuses.map(({ id, name }) => ({ value: id, label: name }));
-  const salesUserOptions = salesUsers.map(({ id, name }) => ({ value: id, label: name }));
+  const statusOptions = orderstatuses.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
+  const salesUserOptions = salesUsers.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
   return (
-    <Form {...layout} id="order-create-form" onFinish={createOrder}>
+    <Form {...layout} id="order-create-form" style={{ width: "70%", marginTop: 32 }} onFinish={createOrder}>
       <Form.Item name="orderedById" label="Patient Name">
         <Select options={patientOptions} loading={patientsStatus.isLoading} />
       </Form.Item>

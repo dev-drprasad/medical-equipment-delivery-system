@@ -3,8 +3,8 @@ import { Modal, Form, Input, message, Select } from "antd";
 import useBROAPI, { useRoles } from "shared/hooks";
 
 const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
 };
 
 const ruleReuired = [{ required: true }];
@@ -44,10 +44,15 @@ function UserAddModal({ onClose, onAdd }) {
     <Modal
       title="Add Team"
       onOk={addTeam}
-      okButtonProps={{ htmlType: "submit", key: "submit", form: "team-add-form", loading: status.isLoading }}
+      okButtonProps={{
+        htmlType: "submit",
+        key: "submit",
+        form: "team-add-form",
+        loading: status.isLoading,
+      }}
       onCancel={onClose}
       okText="Add Team"
-      width={680}
+      width={600}
       visible
     >
       <Form {...layout} id="team-add-form" onFinish={addTeam}>

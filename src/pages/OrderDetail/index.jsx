@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useCallback, useContext } from "react";
 import useBROAPI, { useOrderStatuses, mergeStatuses } from "shared/hooks";
 import { NSHandler } from "shared/components";
 import {
@@ -20,6 +20,7 @@ import { Link } from "@reach/router";
 import "./styles.scss";
 import { UserOutlined, PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
+import { AuthContext } from "shared/context";
 
 const { Dragger } = Upload;
 
@@ -73,9 +74,7 @@ function useUpdateOrderStatus(id) {
   const [payload, setPayload] = useState(undefined);
   const args = useMemo(
     () =>
-      payload
-        ? [`/api/v1/orders/${id}/status`, { method: "POST", body: JSON.stringify(payload) }]
-        : [undefined, undefined],
+      payload ? [`/api/v1/orders/${id}/status`, { method: "POST", body: JSON.stringify(payload) }] : [undefined, undefined],
     [payload, id]
   );
   const [data, status] = useBROAPI(...args);
@@ -105,7 +104,11 @@ function useDocumentUploader(orderId) {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("orderId", orderId);
-    const opts = { method: "POST", headers: { "Content-Type": null }, body: formData };
+    const opts = {
+      method: "POST",
+      headers: { "Content-Type": null },
+      body: formData,
+    };
     return [`/api/v1/orders/${orderId}/documents/upload`, opts];
   }, [file, orderId]);
   console.log("args :>> ", args);
@@ -145,6 +148,7 @@ function CommentEditor({ orderId, onAdd }) {
 }
 
 function OrderDetail({ id: idStr }) {
+  const [user] = useContext(AuthContext);
   const id = Number(idStr);
   const [order, status] = useOrder(Number.isFinite(id) && id > 0 ? id : undefined);
   const [orderstatuses, orderstatusesStatus] = useOrderStatuses();
@@ -169,7 +173,10 @@ function OrderDetail({ id: idStr }) {
 
   const handleAppointmentChange = useCallback(
     (appointment) => {
-      updateAppointment({ appointment: appointment.format("YYYY-MM-DD"), id: order?.id });
+      updateAppointment({
+        appointment: appointment.format("YYYY-MM-DD"),
+        id: order?.id,
+      });
     },
     [updateStatus, order]
   );
@@ -209,7 +216,10 @@ function OrderDetail({ id: idStr }) {
   }, [uploadDocumentStatus, refreshDocuments]);
 
   const allComments = useMemo(() => [...comments, ...newComments], [comments, newComments]);
-  const orderstatusOptions = orderstatuses.map(({ id, name }) => ({ value: id, label: name }));
+  const orderstatusOptions = orderstatuses.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
 
   const orderStatusStatus = updateStatusStatus.isInit
     ? orderstatusesStatus
@@ -330,7 +340,11 @@ function OrderDetail({ id: idStr }) {
                   renderItem={(document) => (
                     <List.Item>
                       <div>
-                        <Typography.Text ellipsis>{document.name}</Typography.Text>
+                        <Typography.Text ellipsis>
+                          <a target="_blank" rel="noopener noreferrer" href={`/api/${document.path}?__token=${user?.token}`}>
+                            {document.name}
+                          </a>
+                        </Typography.Text>
                         <div style={{ color: "rgba(0,0,0,0.45)", fontSize: 11 }}>
                           @ {moment(document.createdAt).format("Do MMM YYYY HH:mm A")}
                         </div>

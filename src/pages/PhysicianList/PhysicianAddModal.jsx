@@ -3,8 +3,8 @@ import { Modal, Form, Input, message } from "antd";
 import useBROAPI from "shared/hooks";
 
 const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
 };
 
 const ruleReuired = [{ required: true }];
@@ -12,8 +12,7 @@ const ruleReuired = [{ required: true }];
 function useAddPhysician() {
   const [physician, setPhysician] = useState(undefined);
   const args = useMemo(
-    () =>
-      physician ? ["/api/v1/physicians", { method: "POST", body: JSON.stringify(physician) }] : [undefined, undefined],
+    () => (physician ? ["/api/v1/physicians", { method: "POST", body: JSON.stringify(physician) }] : [undefined, undefined]),
     [physician]
   );
   const [, status] = useBROAPI(...args);
@@ -44,10 +43,15 @@ function PhysicianAddModal({ onClose, onAdd }) {
     <Modal
       title="Add Physician"
       onOk={addPhysician}
-      okButtonProps={{ htmlType: "submit", key: "submit", form: "physician-add-form", loading: status.isLoading }}
+      okButtonProps={{
+        htmlType: "submit",
+        key: "submit",
+        form: "physician-add-form",
+        loading: status.isLoading,
+      }}
       onCancel={onClose}
       okText="Add Physician"
-      width={680}
+      width={600}
       visible
     >
       <Form {...layout} id="physician-add-form" onFinish={addPhysician}>

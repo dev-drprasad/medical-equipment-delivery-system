@@ -25,10 +25,7 @@ function getType(data) {
 // https://stackoverflow.com/a/2117523
 function uuidv4() {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-    (
-      c ^
-      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-    ).toString(16)
+    (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
   );
 }
 
@@ -88,61 +85,27 @@ export function useFetch(url, opts) {
           body = await res.json();
         } catch (e) {
           const message = "Invalid JSON response from API";
-          console.error(
-            `${cr}API Error:${cr}${tab}URL: ${url}${cr}${tab}Msg: ${message}${cr}${tab}Code: ${res.status}`
-          );
-          setResponse([
-            undefined,
-            new NS("ERROR", "", res.status, responseTime, rId, cached),
-          ]);
+          console.error(`${cr}API Error:${cr}${tab}URL: ${url}${cr}${tab}Msg: ${message}${cr}${tab}Code: ${res.status}`);
+          setResponse([undefined, new NS("ERROR", "", res.status, responseTime, rId, cached)]);
           return;
         }
 
         if (res.status >= 400) {
           const errorType = body.error || "";
-          const isInternalError =
-            !errorType || errorType === "Internal Server Error";
+          const isInternalError = !errorType || errorType === "Internal Server Error";
           const message = !isInternalError ? body.message || "" : "";
-          setResponse([
-            undefined,
-            new NS(
-              "ERROR",
-              message,
-              res.status,
-              responseTime,
-              rId,
-              cached,
-              false,
-              token
-            ),
-          ]);
+          setResponse([undefined, new NS("ERROR", message, res.status, responseTime, rId, cached, false, token)]);
           return;
         }
         const dataType = getType(body);
-        const hasData =
-          dataType !== "Null" &&
-          (dataType === "Array" ? body.length > 0 : true);
+        const hasData = dataType !== "Null" && (dataType === "Array" ? body.length > 0 : true);
 
-        setResponse([
-          body,
-          new NS(
-            "SUCCESS",
-            "",
-            res.status,
-            responseTime,
-            rId,
-            cached,
-            hasData,
-            token
-          ),
-        ]);
+        setResponse([body, new NS("SUCCESS", "", res.status, responseTime, rId, cached, hasData, token)]);
       })
       .catch((err) => {
         if (abortctrl.signal.aborted) return;
         const responseTime = performance.now() - startTime;
-        console.error(
-          `${cr}API Error:${cr}${tab}URL: ${url}${cr}${tab}Msg: ${err.message}${cr}${tab}Code: 0`
-        );
+        console.error(`${cr}API Error:${cr}${tab}URL: ${url}${cr}${tab}Msg: ${err.message}${cr}${tab}Code: 0`);
         setResponse([undefined, new NS("ERROR", "", 0, responseTime, rId)]);
       });
 
@@ -152,8 +115,7 @@ export function useFetch(url, opts) {
   return [response[0], response[1], refresh];
 }
 
-const RBO_API_BASE_URL =
-  process.env.RBO_UI_RBO_API_BASE_URL || window.location.origin;
+const RBO_API_BASE_URL = process.env.RBO_UI_RBO_API_BASE_URL || window.location.origin;
 export default function useBROAPI(urlpath, extraOptions) {
   const [user] = useContext(AuthContext);
   const url = urlpath && new URL(urlpath, RBO_API_BASE_URL).toString();
@@ -221,9 +183,7 @@ export function usePhysicianIdAndNames() {
     ["fields", ["id", "name"]],
     ["sortBy", "name"],
   ]);
-  const [physicians = [], status] = useBROAPI(
-    `/api/v1/physicians?${queryParams}`
-  );
+  const [physicians = [], status] = useBROAPI(`/api/v1/physicians?${queryParams}`);
   return [physicians, status];
 }
 
@@ -248,7 +208,6 @@ export function useEquiments() {
 }
 
 export function useSalesUsers() {
-  const queryParams = new URLSearchParams([["team", 1]]);
-  const [users = [], status] = useBROAPI(`/api/v1/users?${queryParams}`);
+  const [users = [], status] = useBROAPI(`/api/v1/sales-users`);
   return [users, status];
 }

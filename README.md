@@ -102,5 +102,6 @@ put userId in context
 make order status enum
 team ->teamId
 team.id -> team.role ??
-
+doc path should start with /
+file download auth logic
 insuredBy 0 causes error
