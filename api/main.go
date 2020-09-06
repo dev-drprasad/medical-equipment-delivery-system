@@ -33,7 +33,7 @@ func init() {
 	var err error
 	// db, err = sqlx.Connect("mysql", dbUser+":"+dbPass+"@tcp("+dbHost+":"+dbPort+"/"+dbName)
 	connString := os.Getenv("DB_CONN_STRING")
-	time.Sleep(10 * time.Second)
+	time.Sleep(5 * time.Second)
 	db, err = sqlx.Connect("mysql", connString)
 	if err != nil {
 		panic(err.Error())
@@ -82,6 +82,7 @@ func main() {
 	r.Handle("/api/v1/login", operations.Login(db, sugar)).Methods("POST")
 	secure.Handle("/v1/patients", operations.GetPatients(db)).Methods("GET")
 	secure.Handle("/v1/patients", operations.AddPatient(db)).Methods("POST")
+	secure.Handle("/v1/patients/{id}", operations.GetPatient(db)).Methods("GET")
 	secure.Handle("/v1/insurers", operations.GetInsurers(db)).Methods("GET")
 	secure.Handle("/v1/insurers", operations.AddInsurer(db)).Methods("POST")
 	secure.Handle("/v1/physicians", operations.GetPhysicians(db)).Methods("GET")

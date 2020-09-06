@@ -3,9 +3,21 @@ import { Modal, Form, Input, message, Select } from "antd";
 import useBROAPI, { useTeams } from "shared/hooks";
 
 const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
 };
+
+const ruleConfirmPassword = ({ getFieldValue }) => ({
+  validator(_, value) {
+    if (!value || getFieldValue("password") === value) {
+      return Promise.resolve();
+    }
+    return Promise.reject("The two passwords you entered do not match!");
+  },
+});
+
+const ruleRequired = { required: true };
+const ruleJustRequired = [ruleRequired];
 
 const ruleReuired = [{ required: true }];
 
@@ -49,23 +61,23 @@ function UserAddModal({ onClose, onAdd }) {
       okButtonProps={{ htmlType: "submit", key: "submit", form: "user-add-form", loading: status.isLoading }}
       onCancel={onClose}
       okText="Add User"
-      width={680}
+      width={600}
       visible
     >
       <Form {...layout} id="user-add-form" onFinish={addInsurer}>
-        <Form.Item name="name" label="Name" rules={ruleReuired}>
+        <Form.Item name="name" label="Name" rules={ruleJustRequired}>
           <Input />
         </Form.Item>
-        <Form.Item name="username" label="Username" rules={ruleReuired}>
+        <Form.Item name="username" label="Username" rules={ruleJustRequired}>
           <Input />
         </Form.Item>
-        <Form.Item name="password" label="Password" rules={ruleReuired}>
-          <Input.TextArea rows={4} />
+        <Form.Item name="password" label="Password" rules={ruleJustRequired}>
+          <Input.Password />
         </Form.Item>
-        <Form.Item name="confirmPassword" label="Re-type Password" rules={ruleReuired}>
-          <Input />
+        <Form.Item name="confirmPassword" label="Re-type password" rules={[...ruleJustRequired, ruleConfirmPassword]}>
+          <Input.Password />
         </Form.Item>
-        <Form.Item name="teamId" label="Team">
+        <Form.Item name="teamId" label="Team" rules={ruleJustRequired}>
           <Select options={teamOptions} loading={teamsStatus.isLoading} />
         </Form.Item>
       </Form>

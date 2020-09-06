@@ -1,14 +1,19 @@
 import "./styles.scss";
 
-import { Button, Input, Table } from "antd";
+import { Button, Table } from "antd";
 
 import React, { useMemo, useState } from "react";
 import { NSHandler, Search, ListActions } from "shared/components";
 import useBROAPI from "shared/hooks";
 import { listsearch, sorters } from "shared/utils";
 import PatientAddModal from "./PatientAddModal";
+import { Link } from "@reach/router";
 
 const { Column } = Table;
+
+function AccountIdAnchored(_, patient) {
+  return <Link to={`/patients/${patient.accountId}`}>{patient.accountId}</Link>;
+}
 
 const searchFields = ["accountId", "firstName", "lastName", "birthDate", "address", "zipcode", "phoneNumber"];
 
@@ -37,7 +42,12 @@ function PatientList() {
       <NSHandler status={status}>
         {() => (
           <Table dataSource={patients} rowKey="accountId">
-            <Column title="Account ID" dataIndex="accountId" sorter={sorters("accountId", "number")} />
+            <Column
+              title="Account ID"
+              dataIndex="accountId"
+              render={AccountIdAnchored}
+              sorter={sorters("accountId", "number")}
+            />
             <Column title="First Name" dataIndex="firstName" sorter={sorters("firstName", "string")} />
             <Column title="Last Name" dataIndex="lastName" sorter={sorters("lastName", "string")} />
             <Column title="Address" dataIndex="address" />

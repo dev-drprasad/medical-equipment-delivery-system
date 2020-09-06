@@ -28,7 +28,7 @@ func Login(db *sqlx.DB, sugar string) http.Handler {
 
 		if err == sql.ErrNoRows {
 			log.Println("User does not exist")
-			w.WriteHeader(http.StatusNotFound)
+			w.WriteHeader(http.StatusUnauthorized)
 			return
 		} else if err != nil {
 			log.Println("Could not find user by username", " <- ", err)

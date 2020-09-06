@@ -10,6 +10,7 @@ import OrderCreate from "pages/OrderCreate";
 import OrderDetail from "pages/OrderDetail";
 import OrderList from "pages/OrderList";
 import PatientList from "pages/PatientList";
+import PatientDetail from "pages/PatientDetail";
 import PhysicianList from "pages/PhysicianList";
 import TeamList from "pages/TeamList";
 import UserList from "pages/UserList";
@@ -48,6 +49,7 @@ function App() {
         <Login path="login" />
         <ProtectedRoute user={user} component={Dashboard} logout={logout} path="/">
           <PatientList path="/" />
+          <PatientDetail path="patients/:id" />
           <InsurerList path="insurers" />
           <PhysicianList path="physicians" />
           <OrderList path="orders" />

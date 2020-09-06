@@ -4,8 +4,8 @@ import { Modal, Form, Input, message, InputNumber } from "antd";
 import useBROAPI from "shared/hooks";
 
 const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
 };
 
 const ruleReuired = [{ required: true }];
@@ -51,14 +51,14 @@ function EquipmentAddModal({ onClose, onAdd }) {
       visible
     >
       <Form {...layout} id="equipment-add-form" onFinish={addEquipment}>
-        <Form.Item name="code" label="HCPCS Equipment Code" rules={ruleReuired}>
+        <Form.Item name="code" label="HCPCS Code" rules={ruleReuired}>
           <Input />
         </Form.Item>
         <Form.Item name="name" label="HCPCS Name" rules={ruleReuired}>
-          <Input.TextArea rows={4} />
+          <Input />
         </Form.Item>
         <Form.Item name="setPrice" label="HCPCS Set Price" rules={ruleReuired}>
-          <InputNumber />
+          <InputNumber style={{ width: "100%" }} />
         </Form.Item>
       </Form>
     </Modal>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useContext } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Alert } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import useBROAPI from "shared/hooks";
 import { AuthContext } from "shared/context";
@@ -41,15 +41,16 @@ function Login() {
       <div className="logo-wrapper">
         <img src="/bro-logo.png" alt="bro logo" />
       </div>
-      <Form.Item name="username" rules={[{ required: true, message: "Please input your Username!" }]}>
+      <Form.Item name="username" rules={[{ required: true, message: "Input your username" }]}>
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder="Username"
           size="large"
           autoFocus
+          autoComplete="off"
         />
       </Form.Item>
-      <Form.Item name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
+      <Form.Item name="password" rules={[{ required: true, message: "Input your password" }]}>
         <Input
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
@@ -57,6 +58,11 @@ function Login() {
           size="large"
         />
       </Form.Item>
+      <Alert
+        style={{ visibility: status.isError && status.statusCode === 401 ? "visible" : "hidden", marginBottom: 16 }}
+        message="Invalid username or password"
+        type="error"
+      />
 
       <Form.Item style={{ textAlign: "right" }}>
         <Button type="primary" htmlType="submit" loading={status.isLoading} size="large">

@@ -1,9 +1,19 @@
 import "./Dashboard.scss";
 
-import { DesktopOutlined, LogoutOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
+import Icon, {
+  DesktopOutlined,
+  LogoutOutlined,
+  UserOutlined,
+  UserAddOutlined,
+  ShoppingCartOutlined,
+  SettingOutlined,
+  GiftOutlined,
+} from "@ant-design/icons";
+
 import { Link } from "@reach/router";
 import { Layout, Menu } from "antd";
 import React from "react";
+import { ReactComponent as PatientIcon } from "shared/icons/patient.svg";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -17,17 +27,17 @@ function Dashboard({ children, logout }) {
     >
       <Sider>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={["patients"]} mode="inline">
-          <Menu.Item key="patients" icon={<PieChartOutlined />}>
+        <Menu theme="dark" defaultSelectedKeys={["patients"]} defaultOpenKeys={["administration"]} mode="inline">
+          <Menu.Item key="patients" icon={<UserAddOutlined style={{ fontSize: 20 }} />}>
             <Link to="">Patients</Link>
           </Menu.Item>
-          <Menu.Item key="orders" icon={<DesktopOutlined />}>
+          <Menu.Item key="orders" icon={<ShoppingCartOutlined style={{ fontSize: 20 }} />}>
             <Link to="orders">Orders</Link>
           </Menu.Item>
-          <Menu.Item key="delivery-tech" icon={<DesktopOutlined />}>
+          <Menu.Item key="delivery-tech" icon={<GiftOutlined style={{ fontSize: 20 }} />}>
             <Link to="delivery">Delivery Tech</Link>
           </Menu.Item>
-          <SubMenu key="administration" icon={<UserOutlined />} title="Administration">
+          <SubMenu key="administration" icon={<SettingOutlined style={{ fontSize: 18 }} />} title="Administration">
             <Menu.Item key="physicians">
               <Link to="physicians">Physicians</Link>
             </Menu.Item>
@@ -35,7 +45,7 @@ function Dashboard({ children, logout }) {
               <Link to="insurers">Insurers</Link>
             </Menu.Item>
             <Menu.Item key="equipments">
-              <Link to="equipments">HCPCS / Equipment</Link>
+              <Link to="equipments">Equipments</Link>
             </Menu.Item>
             <Menu.Item key="users">
               <Link to="users">Users</Link>
@@ -44,7 +54,7 @@ function Dashboard({ children, logout }) {
               <Link to="teams">Teams</Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logout}>
+          <Menu.Item key="logout" icon={<LogoutOutlined style={{ fontSize: 18 }} />} onClick={logout}>
             Logout
           </Menu.Item>
         </Menu>

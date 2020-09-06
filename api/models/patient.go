@@ -17,4 +17,5 @@ type Patient struct {
 
 	InsuredByID *uint64  `json:"insuredById" db:"insuredBy"`
 	InsuredBy   *Insurer `json:"insuredBy,omitempty"`
+	Orders      []*Order `json:"orders" db:"-"`
 }

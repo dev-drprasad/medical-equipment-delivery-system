@@ -20,9 +20,9 @@ var OrderStatusValueToName = map[StatusID]string{StatusInit: "Init", StatusVerif
 var OrderStatusNameToValue = map[string]StatusID{"Init": StatusInit, "Verified": StatusVerified, "Canceled": StatusCanceled, "Delivered": StatusDelivered}
 
 type Order struct {
-	ID             uint64      `json:"id" db:"id"`
+	ID             *uint64     `json:"id" db:"id"`
 	ServiceDate    null.String `json:"serviceDate" db:"serviceDate"`
-	Status         string      `json:"status" db:"status"`
+	Status         *string     `json:"status" db:"status"`
 	OrderedByID    uint64      `json:"orderedById,omitempty" db:"orderedBy"`
 	PrescribedByID uint64      `json:"prescribedById,omitempty" db:"prescribedBy"`
 	InsuredByID    uint        `json:"insuredById,omitempty" db:"insuredBy"`
