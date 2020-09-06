@@ -4,7 +4,7 @@ CREATE TABLE `patient` (
   `lastName` varchar(30) NOT NULL,
   `phoneNumber` varchar(15) NOT NULL,
   `address` varchar(255) NULL,
-  `zipcode` varchar(6) NULL,
+  `zipcode` varchar(10) NULL,
   `birthDate` DATE NULL,
   PRIMARY KEY (`accountId`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
@@ -14,7 +14,7 @@ CREATE TABLE `insurer` (
   `name` varchar(60) NOT NULL,
   `address` varchar(255) NOT NULL,
   `city` varchar(30) NOT NULL,
-  `zipcode` varchar(6) NOT NULL,
+  `zipcode` varchar(10) NOT NULL,
   `phoneNumber` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
@@ -29,7 +29,7 @@ CREATE TABLE `physician` (
   `name` varchar(60) NOT NULL,
   `address` varchar(255) NOT NULL,
   `city` varchar(30) NOT NULL,
-  `zipcode` varchar(6) NOT NULL,
+  `zipcode` varchar(10) NOT NULL,
   `phoneNumber` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
