@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 import useBROAPI from "shared/hooks";
 import { NSHandler, Search, ListActions } from "shared/components";
 import "./styles.scss";
-import { listsearch } from "shared/utils";
+import { listsearch, sorters } from "shared/utils";
 const { Column } = Table;
 
 function getPatientNameFromOrder(order) {
@@ -40,11 +40,19 @@ function OrderList({ navigate }) {
       <NSHandler status={status}>
         {() => (
           <Table dataSource={searched} rowKey="id">
-            <Column title="Order ID" dataIndex="id" render={orderIdAnchored} />
+            <Column title="Order ID" dataIndex="id" render={orderIdAnchored} sorter={sorters("id", "number")} />
             <Column title="Status" dataIndex="status" />
-            <Column title="Date of Service" dataIndex="serviceDate" />
-            <Column title="Patient Name" render={patientNameAnchored} />
-            <Column title="Physician Name" render={physicianNameAnchored} />
+            <Column title="Date of Service" dataIndex="serviceDate" sorter={sorters("serviceDate", "date")} />
+            <Column
+              title="Patient Name"
+              render={patientNameAnchored}
+              sorter={sorters(getPatientNameFromOrder, "string")}
+            />
+            <Column
+              title="Physician Name"
+              render={physicianNameAnchored}
+              sorter={sorters("prescribedBy.name", "string")}
+            />
           </Table>
         )}
       </NSHandler>

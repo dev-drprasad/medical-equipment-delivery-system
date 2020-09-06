@@ -5,7 +5,7 @@ import { Button, Input, Table } from "antd";
 import React, { useMemo, useState } from "react";
 import { NSHandler, Search, ListActions } from "shared/components";
 import useBROAPI from "shared/hooks";
-import { listsearch } from "shared/utils";
+import { listsearch, sorters } from "shared/utils";
 import PatientAddModal from "./PatientAddModal";
 
 const { Column } = Table;
@@ -37,11 +37,11 @@ function PatientList() {
       <NSHandler status={status}>
         {() => (
           <Table dataSource={patients} rowKey="accountId">
-            <Column title="Account ID" dataIndex="accountId" />
-            <Column title="First Name" dataIndex="firstName" />
-            <Column title="Last Name" dataIndex="lastName" />
+            <Column title="Account ID" dataIndex="accountId" sorter={sorters("accountId", "number")} />
+            <Column title="First Name" dataIndex="firstName" sorter={sorters("firstName", "string")} />
+            <Column title="Last Name" dataIndex="lastName" sorter={sorters("lastName", "string")} />
             <Column title="Address" dataIndex="address" />
-            <Column title="Date of Birth" dataIndex="birthDate" />
+            <Column title="Date of Birth" dataIndex="birthDate" sorter={sorters("birthDate", "date")} />
           </Table>
         )}
       </NSHandler>

@@ -38,8 +38,16 @@ function Login() {
 
   return (
     <Form className="login-form" initialValues={{ remember: true }} onFinish={handleFormSubmit}>
+      <div className="logo-wrapper">
+        <img src="/bro-logo.png" alt="bro logo" />
+      </div>
       <Form.Item name="username" rules={[{ required: true, message: "Please input your Username!" }]}>
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" size="large" />
+        <Input
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Username"
+          size="large"
+          autoFocus
+        />
       </Form.Item>
       <Form.Item name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
         <Input

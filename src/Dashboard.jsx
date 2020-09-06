@@ -1,26 +1,31 @@
-import React from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
-import { DesktopOutlined, PieChartOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
-import { Link } from "@reach/router";
 import "./Dashboard.scss";
+
+import { DesktopOutlined, LogoutOutlined, PieChartOutlined, UserOutlined } from "@ant-design/icons";
+import { Link } from "@reach/router";
+import { Layout, Menu } from "antd";
+import React from "react";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
 function Dashboard({ children, logout }) {
   return (
-    <Layout style={{ height: "100%" }}>
+    <Layout
+      style={{
+        height: "100%",
+      }}
+    >
       <Sider>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={["patients"]} mode="inline">
           <Menu.Item key="patients" icon={<PieChartOutlined />}>
-            <Link to="patients">Patients</Link>
+            <Link to="">Patients</Link>
           </Menu.Item>
           <Menu.Item key="orders" icon={<DesktopOutlined />}>
             <Link to="orders">Orders</Link>
           </Menu.Item>
           <Menu.Item key="delivery-tech" icon={<DesktopOutlined />}>
-            <Link to="orders">Delivery Tech</Link>
+            <Link to="delivery">Delivery Tech</Link>
           </Menu.Item>
           <SubMenu key="administration" icon={<UserOutlined />} title="Administration">
             <Menu.Item key="physicians">
@@ -45,12 +50,8 @@ function Dashboard({ children, logout }) {
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
-          <main id="main">{children}</main>
+        <Content style={{ padding: "32px 16px 16px 16px" }} id="main">
+          {children}
         </Content>
       </Layout>
     </Layout>
