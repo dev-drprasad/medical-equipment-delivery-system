@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { Button, Table } from "antd";
 import { Link } from "@reach/router";
 import useBROAPI from "shared/hooks";
-import { NSHandler } from "shared/components";
+import { NSHandler, Search, ListActions } from "shared/components";
 import "./styles.scss";
+import { listsearch } from "shared/utils";
 const { Column } = Table;
 
 function getPatientNameFromOrder(order) {
-  console.log("order :>> ", order);
   return order.orderedBy.firstName + " " + order.orderedBy.lastName;
 }
 
@@ -22,21 +22,24 @@ function physicianNameAnchored(_, order) {
 function orderIdAnchored(id) {
   return <Link to={`/orders/${id}`}>{id}</Link>;
 }
-
+const searchFields = ["id", "serviceDate", "status", "orderedBy.firstName", "orderedBy.lastName", "prescribedBy.name"];
 function OrderList({ navigate }) {
-  console.log("navigate :>> ", navigate);
+  const [searchText, setSearchText] = useState("");
+
   const [orders = [], status] = useBROAPI("/api/v1/orders");
+  const searched = useMemo(() => listsearch(orders, searchFields, searchText), [searchText, orders]);
 
   return (
     <div className="orders-container">
-      <div className="actions">
-        <Button type="primary" onClick={() => navigate("/orders/new")}>
+      <ListActions>
+        <Search placeholder="Search for anything..." onSearch={setSearchText} style={{ width: 320 }} size="large" />
+        <Button type="primary" onClick={() => navigate("/orders/new")} size="large">
           Create Order
         </Button>
-      </div>
+      </ListActions>
       <NSHandler status={status}>
         {() => (
-          <Table dataSource={orders} rowKey="id">
+          <Table dataSource={searched} rowKey="id">
             <Column title="Order ID" dataIndex="id" render={orderIdAnchored} />
             <Column title="Status" dataIndex="status" />
             <Column title="Date of Service" dataIndex="serviceDate" />

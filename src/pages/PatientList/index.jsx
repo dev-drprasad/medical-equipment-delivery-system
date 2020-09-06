@@ -1,27 +1,39 @@
-import React, { useState } from "react";
-import { Table, Button, Input } from "antd";
-import useBROAPI from "shared/hooks";
-import { NSHandler } from "shared/components";
-import PatientAddModal from "./PatientAddModal";
 import "./styles.scss";
+
+import { Button, Input, Table } from "antd";
+
+import React, { useMemo, useState } from "react";
+import { NSHandler, Search, ListActions } from "shared/components";
+import useBROAPI from "shared/hooks";
+import { listsearch } from "shared/utils";
+import PatientAddModal from "./PatientAddModal";
 
 const { Column } = Table;
 
+const searchFields = ["accountId", "firstName", "lastName", "birthDate", "address", "zipcode", "phoneNumber"];
+
+function usePatients() {
+  const [searchText, setSearchText] = useState("");
+  const [patients = [], status, refresh] = useBROAPI("/api/v1/patients");
+  const searched = useMemo(() => listsearch(patients, searchFields, searchText), [searchText, patients]);
+  return [searched, status, refresh, setSearchText];
+}
+
 function PatientList() {
   const [shouldShowPatientAddModal, setShouldShowPatientAddModal] = useState(false);
-  const [patients = [], status, refresh] = useBROAPI("/api/v1/patients");
+  const [patients = [], status, refresh, search] = usePatients();
 
   const showPatientAddModal = () => setShouldShowPatientAddModal(true);
   const closePatientAddModal = () => setShouldShowPatientAddModal(false);
-  const handleSearch = () => {};
+
   return (
     <div className="patients-container">
-      <div className="actions">
-        <Input.Search placeholder="input search text" onSearch={handleSearch} style={{ width: 250 }} size="large" />
+      <ListActions>
+        <Search placeholder="Search for anything..." onSearch={search} style={{ width: 320 }} size="large" />
         <Button type="primary" onClick={showPatientAddModal} size="large">
           Add Patient
         </Button>
-      </div>
+      </ListActions>
       <NSHandler status={status}>
         {() => (
           <Table dataSource={patients} rowKey="accountId">

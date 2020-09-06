@@ -1,13 +1,17 @@
 import './styles.scss';
 
 import {Button, Table} from 'antd';
-import React, {useState} from 'react';
-import {NSHandler} from 'shared/components';
+import React, {useMemo, useState} from 'react';
+import {ListActions, NSHandler, Search} from 'shared/components';
 import useBROAPI from 'shared/hooks';
+import {listsearch} from 'shared/utils';
 
 import PhysicianAddModal from './PhysicianAddModal';
 
 const {Column} = Table;
+
+const searchFields =
+    ['id', 'name', 'address', 'phoneNumber', 'zipcode', 'city'];
 
 function PhysicianList() {
   const [shouldShowPhysicianAddModal, setShouldShowPhysicianAddModal] =
@@ -16,16 +20,24 @@ function PhysicianList() {
 
   const showPhysicianAddModal = () => setShouldShowPhysicianAddModal(true);
   const closePhysicianAddModal = () => setShouldShowPhysicianAddModal(false);
+
+  const [searchText, setSearchText] = useState('')
+  const searched = useMemo(
+      () => listsearch(physicians, searchFields, searchText),
+      [physicians, searchText]);
+
   return (
     <div className='patients-container'>
-      <div className='actions'>
-        <Button type='primary' onClick={showPhysicianAddModal}>
+      <ListActions>
+        <Search placeholder='Search for anything...' onSearch={setSearchText} style={
+    { width: 320 }} size='large' />
+        <Button type='primary' onClick={showPhysicianAddModal} size='large'>
           Add Physician
         </Button>
-      </div>
+      </ListActions>
       <NSHandler status={status}>
         {() => (
-          <Table dataSource={physicians} rowKey='id'>
+          <Table dataSource={searched} rowKey='id'>
             <Column title='Name' dataIndex='name' />
             <Column title='Address' dataIndex='address' />
             <Column title='City' dataIndex='city' />

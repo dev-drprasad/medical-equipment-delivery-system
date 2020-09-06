@@ -1,0 +1,12 @@
+.search-container {
+  .ant-input {
+    border: 1px solid transparent;
+  }
+  .ant-input-group-addon {
+    padding: 0;
+    border: 0;
+    > * {
+      border: 0;
+    }
+  }
+}

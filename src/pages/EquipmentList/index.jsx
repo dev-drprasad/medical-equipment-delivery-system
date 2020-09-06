@@ -1,38 +1,45 @@
 import "./styles.scss";
 
 import { Button, Table } from "antd";
-import React, { useState } from "react";
-import { NSHandler } from "shared/components";
+import React, { useState, useMemo } from "react";
+import { NSHandler, Search, ListActions } from "shared/components";
 import useBROAPI from "shared/hooks";
+import { includes, listsearch } from "shared/utils";
 
-import InsurerAddModal from "./InsurerAddModal";
+import EquipmentAddModal from "./EquipmentAddModal";
 
 const { Column } = Table;
 
+const searchFields = ["id", "name", "code"];
+
 function EquipmentList() {
-  const [shouldShowEquipAddModal, setShouldShowEquipAddModal] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [shouldShowEquipmentAddModal, setShouldShowEquipmentAddModal] = useState(false);
   const [equipments = [], status, refresh] = useBROAPI("/api/v1/equipments");
 
-  const showInsurerAddModal = () => setShouldShowEquipAddModal(true);
-  const closeInsurerAddModal = () => setShouldShowEquipAddModal(false);
+  const showEquipmentAddModal = () => setShouldShowEquipmentAddModal(true);
+  const closeEquipmentAddModal = () => setShouldShowEquipmentAddModal(false);
+
+  const searched = useMemo(() => listsearch(equipments, searchFields, searchText), [equipments, searchText]);
+
   return (
-    <div className="insurers-container">
-      <div className="actions">
-        <Button type="primary" onClick={showInsurerAddModal}>
-          Add Insurer
+    <div className="equipments-container">
+      <ListActions>
+        <Search placeholder="Search for anything..." onSearch={setSearchText} style={{ width: 320 }} size="large" />
+        <Button type="primary" onClick={showEquipmentAddModal} size="large">
+          Add Equipment
         </Button>
-      </div>
+      </ListActions>
       <NSHandler status={status}>
         {() => (
-          <Table dataSource={equipments} rowKey="id">
-            <Column title="Name" dataIndex="name" />
-            <Column title="Address" dataIndex="address" />
-            <Column title="City" dataIndex="city" />
-            <Column title="Zip Code" dataIndex="zipcode" />
+          <Table dataSource={searched} rowKey="id">
+            <Column title="HCPCS Code" dataIndex="code" />
+            <Column title="HCPCS Name" dataIndex="name" />
+            <Column title="HCPCS Set Price" dataIndex="setPrice" />
           </Table>
         )}
       </NSHandler>
-      {shouldShowEquipAddModal && <InsurerAddModal onClose={closeInsurerAddModal} onAdd={refresh} />}
+      {shouldShowEquipmentAddModal && <EquipmentAddModal onClose={closeEquipmentAddModal} onAdd={refresh} />}
     </div>
   );
 }

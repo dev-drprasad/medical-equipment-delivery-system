@@ -33,7 +33,6 @@ func init() {
 	var err error
 	// db, err = sqlx.Connect("mysql", dbUser+":"+dbPass+"@tcp("+dbHost+":"+dbPort+"/"+dbName)
 	connString := os.Getenv("DB_CONN_STRING")
-	fmt.Println(connString)
 	time.Sleep(10 * time.Second)
 	db, err = sqlx.Connect("mysql", connString)
 	if err != nil {
