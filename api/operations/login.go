@@ -23,7 +23,7 @@ func Login(db *sqlx.DB, sugar string) http.Handler {
 		password := body["password"]
 
 		u := models.User{Team: &models.Team{}}
-		err := db.QueryRow("SELECT user.id,user.username,user.password,team.role FROM user LEFT JOIN team ON user.team = team.id WHERE username = ?", username).
+		err := db.QueryRow("SELECT user.id,user.username,user.hashedPassword,team.role FROM user LEFT JOIN team ON user.team = team.id WHERE username = ?", username).
 			Scan(&u.ID, &u.Username, &u.HashedPassword, &u.Team.RoleID)
 
 		if err == sql.ErrNoRows {
