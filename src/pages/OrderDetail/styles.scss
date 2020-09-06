@@ -1,0 +1,59 @@
+.order-detail {
+  display: grid;
+  grid-template-columns: 70% auto;
+  column-gap: 16px;
+  .column-left {
+    .ant-card {
+      margin-bottom: 16px;
+
+      .ant-descriptions {
+        .ant-descriptions-item-label {
+          width: 50%;
+          text-align: right;
+          padding: 0 16px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .order-comments {
+      padding: 0 16px;
+      background-color: white;
+      .ant-comment-content-detail {
+        white-space: pre-wrap;
+      }
+      .ant-comment-content-author-name {
+        font-weight: 500;
+      }
+      .ant-comment-content-author-time {
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
+    > .ant-comment {
+      padding-left: 16px;
+      textarea {
+        border: none;
+      }
+    }
+  }
+
+  .column-right {
+    > * {
+      margin-bottom: 16px;
+    }
+
+    .document-list {
+      margin-bottom: 0;
+    }
+
+    .document-uploader {
+      height: 80px;
+      .ant-upload-drag-icon {
+        margin-bottom: 0;
+        .anticon {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}

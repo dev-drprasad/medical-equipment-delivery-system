@@ -1,0 +1,15 @@
+.patients-container {
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    .ant-input-search {
+      border: 1px solid transparent;
+    }
+  }
+}
+
+#patient-add-form {
+  margin: 0 32px;
+}

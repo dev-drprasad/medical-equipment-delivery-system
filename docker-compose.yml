@@ -1,0 +1,67 @@
+version: "3"
+services:
+  webapp:
+    image: ${COMPOSE_PROJECT_NAME}-webapp
+    build:
+      context: .
+      dockerfile: ./webapp.Dockerfile
+      args:
+        RBO_UI_APP_VERSION: ${RBO_UI_APP_VERSION}
+    ports:
+      - ${PORT}:80
+    volumes:
+      - node_modules:/app/node_modules
+    container_name: ${COMPOSE_PROJECT_NAME}-webapp
+    environment:
+      RBO_UI_RBO_API_BASE_URL: http://api:8000
+    tty: true
+    depends_on:
+      - api
+    networks:
+      - bro
+  api:
+    image: ${COMPOSE_PROJECT_NAME}-api
+    restart: always
+    ports:
+      - 9000:8000
+    build:
+      context: .
+      dockerfile: ./api.Dockerfile
+    volumes:
+      - order_documents:/app/order_documents
+    container_name: ${COMPOSE_PROJECT_NAME}-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+    depends_on:
+      - mysql
+    environment:
+      SUGAR: ${SUGAR}
+      DB_CONN_STRING: ${DB_USER}:${DB_PASSWORD}@tcp(mysql:3306)/${DB_NAME}
+    tty: true
+    networks:
+      - bro
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - ${DB_PORT}:3306
+    environment:
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    container_name: ${COMPOSE_PROJECT_NAME}-db
+    restart: always
+    healthcheck:
+      test: mysqladmin ping -h localhost -u ${DB_USER} --password=${DB_PASSWORD}
+      timeout: 10s
+    networks:
+      - bro
+
+volumes:
+  node_modules:
+  order_documents:
+
+networks:
+  bro:
+    driver: bridge
