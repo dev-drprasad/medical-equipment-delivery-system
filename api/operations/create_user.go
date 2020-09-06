@@ -28,14 +28,16 @@ func CreateUser(db *sqlx.DB) http.Handler {
 		}
 
 		u.Password = ""
-		result, err := db.Exec(`INSERT INTO user(name, username, password, team) VALUES(?, ?, ?, ?)`, &u.Name, &u.Username, &u.HashedPassword, &u.TeamID)
+		result, err := db.Exec(`INSERT INTO user(name, username, hashedPassword, team) VALUES(?, ?, ?, ?)`, &u.Name, &u.Username, &u.HashedPassword, &u.TeamID)
 
 		if err != nil {
+			log.Println("could not create user", " : ", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		rowsAffected, _ := result.RowsAffected()
 		if rowsAffected != 1 {
+			log.Println("rows affected ", rowsAffected)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
