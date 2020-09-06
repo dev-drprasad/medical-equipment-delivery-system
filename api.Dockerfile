@@ -6,7 +6,7 @@ WORKDIR /go/src/breath-right-one
 ADD go.mod .
 RUN go mod download
 # Copy the local package files to the container's workspace.
-ADD . /go/src/breath-right-one
+ADD api /go/src/breath-right-one/api
 # WORKDIR /go/src/breath-right-one
 # Build the outyet command inside the container.
 # (You may fetch or manage dependencies here,

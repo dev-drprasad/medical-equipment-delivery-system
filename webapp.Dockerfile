@@ -13,8 +13,6 @@ RUN npm install
 ARG RBO_UI_RBO_API_BASE_URL
 
 COPY public /app/public
-COPY ./docker-entrypoint.sh /app
-COPY ./nginx.conf.template /app
 COPY jsconfig.json /app
 COPY src /app/src
 
@@ -22,12 +20,14 @@ RUN npm run build
 
 # production environment
 FROM fholzer/nginx-brotli:v1.16.0
+
+EXPOSE 80
+
 COPY --from=build /app/build /usr/share/nginx/html
 # RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
-EXPOSE 80
-
 COPY docker-entrypoint.sh /
+
 ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
