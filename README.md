@@ -102,3 +102,5 @@ put userId in context
 make order status enum
 team ->teamId
 team.id -> team.role ??
+
+insuredBy 0 causes error

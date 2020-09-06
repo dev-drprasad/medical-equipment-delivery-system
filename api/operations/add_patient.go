@@ -2,7 +2,6 @@ package operations
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -25,7 +24,7 @@ func AddPatient(db *sqlx.DB) http.Handler {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		fmt.Println(p.InsuredBy)
+
 		result, err := db.NamedExec(`INSERT INTO patient(accountId, firstName, lastName, phoneNumber, address, zipcode, birthDate, insuredBy) 
 					VALUES(:accountId, :firstName, :lastName, :phoneNumber, :address, :zipcode, :birthDate, :insuredById)`, p)
 

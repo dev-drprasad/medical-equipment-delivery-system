@@ -12,7 +12,12 @@ RUN npm install
 
 ARG RBO_UI_RBO_API_BASE_URL
 
-COPY . /app
+COPY public /app/public
+COPY ./docker-entrypoint.sh /app
+COPY ./nginx.conf.template /app
+COPY jsconfig.json /app
+COPY src /app/src
+
 RUN npm run build
 
 # production environment

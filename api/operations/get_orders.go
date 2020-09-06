@@ -19,7 +19,7 @@ func GetOrders(db *sqlx.DB) http.Handler {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		var orders []models.Order
+		orders := []models.Order{}
 		for rows.Next() {
 			o := models.Order{
 				OrderedBy:    &models.Patient{},
