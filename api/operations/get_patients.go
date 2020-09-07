@@ -13,7 +13,7 @@ import (
 func GetPatients(db *sqlx.DB) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		patients := []models.Patient{}
-		err := db.Select(&patients, "SELECT * FROM patient ORDER BY accountId DESC")
+		err := db.Select(&patients, "SELECT accountId, firstName, lastName, address, zipcode, phoneNumber, birthDate, UNIX_TIMESTAMP(createdAt) AS createdAt FROM patient ORDER BY accountId DESC")
 		if err != nil {
 			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
