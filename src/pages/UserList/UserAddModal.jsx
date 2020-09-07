@@ -19,8 +19,6 @@ const ruleConfirmPassword = ({ getFieldValue }) => ({
 const ruleRequired = { required: true };
 const ruleJustRequired = [ruleRequired];
 
-const ruleReuired = [{ required: true }];
-
 function useAddUser() {
   const [user, setUser] = useState(undefined);
   const args = useMemo(
@@ -38,7 +36,6 @@ function UserAddModal({ onClose, onAdd }) {
 
   const addInsurer = (u) => {
     if (u.currentTarget) return;
-    console.log("u :>> ", u);
     add(u);
   };
 

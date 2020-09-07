@@ -13,7 +13,7 @@ const formatXAxis = (dateStr) => moment(dateStr).format("Do");
 function Home() {
   const [aggregatedOrders = [], status] = useBROAPI("/api/v1/orders/aggregations/status/delivered");
   const [newPatients = [], newPatientsStatus] = useBROAPI("/api/v1/patients/aggregations/new");
-  console.log("newPatients :>> ", newPatients);
+
   return (
     <div className="home">
       <Card title="Delivered Orders" size="small">

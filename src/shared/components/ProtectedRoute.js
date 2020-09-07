@@ -1,7 +1,6 @@
 import { Redirect } from "@reach/router";
 import NotFound from "pages/NotFound";
-import React, { useContext } from "react";
-import { AuthContext } from "shared/context";
+import React from "react";
 
 function ProtectedRoute({ component: Component, user, adminOnly = false, ...rest }) {
   // Not using `noThrow` causing UI to break. Don't know why

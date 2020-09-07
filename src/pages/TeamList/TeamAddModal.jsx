@@ -26,7 +26,6 @@ function UserAddModal({ onClose, onAdd }) {
 
   const addTeam = (t) => {
     if (t.currentTarget) return;
-    console.log("u :>> ", t);
     add(t);
   };
 

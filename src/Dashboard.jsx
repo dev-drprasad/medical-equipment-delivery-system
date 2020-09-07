@@ -17,7 +17,6 @@ const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
 function Dashboard({ children, logout, location }) {
-  console.log("location :>> ", location);
   const defaultSelectedKey = location.pathname === "/" ? "home" : location.pathname.slice(1);
   return (
     <Layout

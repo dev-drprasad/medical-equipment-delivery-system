@@ -43,8 +43,6 @@ export function useFetch(url, opts) {
   const refresh = useCallback(() => setParams([uuidv4(), true]), []);
 
   useEffect(() => {
-    console.log("object");
-    console.log("url,opts :>> ", url, opts);
     if (url && opts) {
       setParams([uuidv4(), false]);
     }

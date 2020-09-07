@@ -25,7 +25,6 @@ function InsurerAddModal({ onClose, onAdd }) {
 
   const addInsurer = (p) => {
     if (p.currentTarget) return;
-    console.log("p :>> ", p);
     add(p);
   };
 

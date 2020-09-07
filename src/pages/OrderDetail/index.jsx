@@ -15,30 +15,31 @@ import {
   Card,
   Upload,
   Typography,
+  Table,
 } from "antd";
 import { Link } from "@reach/router";
 import "./styles.scss";
-import { UserOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { AuthContext } from "shared/context";
+import { getInitialsFromName } from "shared/utils";
+import ListActions from "shared/components/ListActions";
+import EquipmentOrderAddModal from "./EquipmentOrderAddModal";
 
 const { Dragger } = Upload;
-
-const getInitials = (str) =>
-  str
-    .toUpperCase()
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("");
+const { Column } = Table;
 
 const ruleReuired = [{ required: true }];
 const NotAvailable = "N/A";
 
+function prefixDollar(setPrice) {
+  return "$ " + setPrice;
+}
+
 function useOrder(id) {
   const args = id ? [`/api/v1/orders/${id}`] : [undefined];
-  const [order, status] = useBROAPI(...args);
-  return [order, status];
+  const [order, status, refresh] = useBROAPI(...args);
+  return [order, status, refresh];
 }
 
 function useComments(id) {
@@ -111,7 +112,7 @@ function useDocumentUploader(orderId) {
     };
     return [`/api/v1/orders/${orderId}/documents/upload`, opts];
   }, [file, orderId]);
-  console.log("args :>> ", args);
+
   const [data, status] = useBROAPI(...args);
 
   return [data, setFile, status];
@@ -123,7 +124,6 @@ function CommentEditor({ orderId, onAdd }) {
   const [comment, add, status] = useCommentAdd(orderId);
   const addComment = (c) => {
     if (c.currentTarget) return;
-    console.log("p :>> ", c);
     add({ ...c, orderId });
   };
 
@@ -140,7 +140,7 @@ function CommentEditor({ orderId, onAdd }) {
         <Input.TextArea rows={3} />
       </Form.Item>
 
-      <Button className="right-align" htmlType="submit" loading={status.isLoading} type="primary">
+      <Button className="right-align" htmlType="submit" loading={status.isLoading} type="primary" ghost>
         Add Comment
       </Button>
     </Form>
@@ -150,7 +150,7 @@ function CommentEditor({ orderId, onAdd }) {
 function OrderDetail({ id: idStr }) {
   const [user] = useContext(AuthContext);
   const id = Number(idStr);
-  const [order, status] = useOrder(Number.isFinite(id) && id > 0 ? id : undefined);
+  const [order, status, refresh] = useOrder(Number.isFinite(id) && id > 0 ? id : undefined);
   const [orderstatuses, orderstatusesStatus] = useOrderStatuses();
   const [, updateStatus, updateStatusStatus] = useUpdateOrderStatus(order?.id);
   const [, updateAppointment, updateAppointmentStatus] = useUpdateAppointment(order?.id);
@@ -158,7 +158,12 @@ function OrderDetail({ id: idStr }) {
   const [comments, commentsStatus] = useComments(order?.id);
   const [saleUsers, saleUsersStatus] = useOrderSaleUsers(order?.id);
   const [documents, documentsStatus, refreshDocuments] = useOrderDocuments(order?.id);
+
   const [newComments, setNewComments] = useState([]);
+  const [shouldShowAddEquipmentModal, setShouldShowAddEquipmentModal] = useState(false);
+
+  const showAddEquipmentModal = () => setShouldShowAddEquipmentModal(true);
+  const hideAddEquipmentModal = () => setShouldShowAddEquipmentModal(false);
 
   const addNewComment = useCallback((comment) => {
     setNewComments((comments) => [...comments, comment]);
@@ -181,11 +186,17 @@ function OrderDetail({ id: idStr }) {
     [updateStatus, order]
   );
 
-  const handleDocumentChange = ({ file, event, fileList }) => {
+  const handleDocumentChange = ({ file }) => {
     if (file) {
       uploadDocument(file);
     }
   };
+
+  useEffect(() => {
+    if (status.isLoading && showAddEquipmentModal) {
+      hideAddEquipmentModal();
+    }
+  }, [status]);
 
   useEffect(() => {
     if (updateStatusStatus.isSuccess) {
@@ -243,7 +254,7 @@ function OrderDetail({ id: idStr }) {
                     />
                   </Descriptions.Item>
                   <Descriptions.Item label="Date of Service" span={1.5}>
-                    {order.serviceDate || NotAvailable}
+                    {order.serviceDate ? moment(order.serviceDate).format("Do MMM YYYY") : NotAvailable}
                   </Descriptions.Item>
                   <Descriptions.Item label="Patient Name" span={1.5}>
                     <Link to={`patients/${order.orderedBy.accountId}`}>
@@ -251,7 +262,7 @@ function OrderDetail({ id: idStr }) {
                     </Link>
                   </Descriptions.Item>
                   <Descriptions.Item label="Patient DOB" span={1.5}>
-                    {order.orderedBy.birthDate || NotAvailable}
+                    {order.orderedBy.birthDate ? moment(order.orderedBy.birthDate).format("Do MMM  YYYY") : NotAvailable}
                   </Descriptions.Item>
                   <Descriptions.Item label="Patient Address" span={1.5}>
                     {order.orderedBy.address}
@@ -269,24 +280,29 @@ function OrderDetail({ id: idStr }) {
                   <Descriptions.Item label="Insurance Company" span={1.5}>
                     <Link to={`insurers/${order.insuredBy.id}`}>{order.insuredBy.name}</Link>
                   </Descriptions.Item>
-                  <Descriptions.Item label="HCPCS Equipments" span={1.5}>
-                    <List
-                      dataSource={order.equipments}
-                      renderItem={(equipment) => (
-                        <List.Item>
-                          {equipment.name} ({equipment.code})
-                        </List.Item>
-                      )}
-                      size="small"
-                      bordered
-                    />
-                  </Descriptions.Item>
                 </Descriptions>
               </Card>
+              <ListActions>
+                <h4 style={{ marginBottom: 0 }}>Equipments</h4>
+                <Button type="primary" onClick={showAddEquipmentModal} ghost>
+                  Update Equipments
+                </Button>
+              </ListActions>
+              <Table
+                dataSource={order.equipments}
+                rowKey="id"
+                showHeader={false}
+                pagination={false}
+                style={{ marginBottom: 16 }}
+              >
+                <Column dataIndex="code"></Column>
+                <Column dataIndex="name"></Column>
+                <Column dataIndex="setPrice" render={prefixDollar} align="right"></Column>
+              </Table>
               <NSHandler
                 status={commentsStatus}
-                noDataMessage={allComments.length === 0 ? "No comments" : ""}
-                style={{ backgroundColor: "white", height: "min-content" }}
+                noDataMessage={allComments.length === 0 ? "No comments have been added." : ""}
+                style={{ height: "min-content" }}
               >
                 {() => (
                   <>
@@ -299,7 +315,7 @@ function OrderDetail({ id: idStr }) {
                         <li>
                           <Comment
                             author={comment.user.name}
-                            avatar={<Avatar>{getInitials(comment.user.name)}</Avatar>}
+                            avatar={<Avatar>{getInitialsFromName(comment.user.name)}</Avatar>}
                             content={comment.content}
                             datetime={"@ " + moment(comment.createdAt).format("Do MMM YYYY HH:mm A")}
                           />
@@ -310,7 +326,7 @@ function OrderDetail({ id: idStr }) {
                 )}
               </NSHandler>
               <Comment
-                avatar={<Avatar icon={<UserOutlined />} />}
+                avatar={<Avatar>{getInitialsFromName(user.name)}</Avatar>}
                 content={<CommentEditor orderId={id} onAdd={addNewComment} />}
               />
             </div>
@@ -372,6 +388,14 @@ function OrderDetail({ id: idStr }) {
                 </Dragger>
               </Card>
             </div>
+            {shouldShowAddEquipmentModal && (
+              <EquipmentOrderAddModal
+                defaultSelectedEquipments={order.equipments.map(({ id }) => id)}
+                orderId={order.id}
+                onUpdate={refresh}
+                onClose={hideAddEquipmentModal}
+              />
+            )}
           </>
         )}
       </NSHandler>

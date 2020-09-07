@@ -25,7 +25,6 @@ function PhysicianAddModal({ onClose, onAdd }) {
 
   const addPhysician = (p) => {
     if (p.currentTarget) return;
-    console.log("p :>> ", p);
     add(p);
   };
 

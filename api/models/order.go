@@ -5,10 +5,11 @@ import "gopkg.in/guregu/null.v3"
 type StatusID string
 
 const (
-	StatusInit      StatusID = "Init"
-	StatusVerified  StatusID = "Verified"
-	StatusCanceled  StatusID = "Canceled"
-	StatusDelivered StatusID = "Delivered"
+	StatusCreated   StatusID = "created"
+	StatusScheduled StatusID = "scheduled"
+	StatusVerified  StatusID = "verified"
+	StatusCanceled  StatusID = "canceled"
+	StatusDelivered StatusID = "delivered"
 )
 
 type OrderStatus struct {
@@ -16,8 +17,8 @@ type OrderStatus struct {
 	Name string   `json:"name"`
 }
 
-var OrderStatusValueToName = map[StatusID]string{StatusInit: "Init", StatusVerified: "Verified", StatusCanceled: "Canceled", StatusDelivered: "Delivered"}
-var OrderStatusNameToValue = map[string]StatusID{"Init": StatusInit, "Verified": StatusVerified, "Canceled": StatusCanceled, "Delivered": StatusDelivered}
+var OrderStatusValueToName = map[StatusID]string{StatusCreated: "created", StatusVerified: "verified", StatusScheduled: "scheduled", StatusCanceled: "canceled", StatusDelivered: "delivered"}
+var OrderStatusNameToValue = map[string]StatusID{"created": StatusCreated, "verified": StatusVerified, "scheduled": StatusScheduled, "canceled": StatusCanceled, "delivered": StatusDelivered}
 
 type Order struct {
 	ID             *uint64     `json:"id" db:"id"`

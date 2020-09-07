@@ -13,8 +13,7 @@ const ruleReuired = [{ required: true }];
 function useAddEquipment() {
   const [payload, setPayload] = useState(undefined);
   const args = useMemo(
-    () =>
-      payload ? ["/api/v1/equipments", { method: "POST", body: JSON.stringify(payload) }] : [undefined, undefined],
+    () => (payload ? ["/api/v1/equipments", { method: "POST", body: JSON.stringify(payload) }] : [undefined, undefined]),
     [payload]
   );
   const [, status] = useBROAPI(...args);
@@ -27,7 +26,6 @@ function EquipmentAddModal({ onClose, onAdd }) {
 
   const addEquipment = (p) => {
     if (p.currentTarget) return;
-    console.log("p :>> ", p);
     add(p);
   };
 

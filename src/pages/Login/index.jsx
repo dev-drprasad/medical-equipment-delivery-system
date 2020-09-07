@@ -5,6 +5,7 @@ import useBROAPI from "shared/hooks";
 import { AuthContext } from "shared/context";
 import { navigate } from "@reach/router";
 import "./styles.scss";
+import { getInitialsFromName } from "shared/utils";
 
 function useLogin() {
   const [body, setBody] = useState(undefined);
@@ -28,7 +29,7 @@ function Login() {
 
   useEffect(() => {
     if (status.isSuccess) {
-      setUser({ ...user, token: status.token });
+      setUser({ ...user, avatar: getInitialsFromName(user.name), token: status.token });
     }
   }, [status, setUser, user]);
 

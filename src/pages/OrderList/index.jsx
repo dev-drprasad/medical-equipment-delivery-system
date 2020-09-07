@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Button, Table, Form, DatePicker } from "antd";
+import { Button, Table, DatePicker } from "antd";
 import { Link } from "@reach/router";
 import useBROAPI from "shared/hooks";
 import { NSHandler, Search, ListActions } from "shared/components";
@@ -29,7 +29,6 @@ function OrderList({ navigate }) {
 
   const [orders = [], status] = useBROAPI("/api/v1/orders");
   const handleDateSelect = (_, dateStr) => {
-    console.log("dateStr :>> ", dateStr);
     setSearchText({
       searchText,
       filters: dateStr

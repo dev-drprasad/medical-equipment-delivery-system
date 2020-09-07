@@ -37,7 +37,6 @@ function OrderCreate({ navigate }) {
   const [create, status] = useOrderCreate();
   const createOrder = (o) => {
     if (o.currentTarget) return;
-    console.log("o :>> ", o);
     create({ ...o, serviceDate: o.serviceDate.format("YYYY-MM-DD") });
   };
 
