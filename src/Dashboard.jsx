@@ -16,7 +16,9 @@ import React from "react";
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 
-function Dashboard({ children, logout }) {
+function Dashboard({ children, logout, location }) {
+  console.log("location :>> ", location);
+  const defaultSelectedKey = location.pathname === "/" ? "home" : location.pathname.slice(1);
   return (
     <Layout
       style={{
@@ -25,7 +27,7 @@ function Dashboard({ children, logout }) {
     >
       <Sider>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={["home"]} defaultOpenKeys={["administration"]} mode="inline">
+        <Menu theme="dark" defaultSelectedKeys={[defaultSelectedKey]} defaultOpenKeys={["administration"]} mode="inline">
           <Menu.Item key="home" icon={<HomeOutlined style={{ fontSize: 20 }} />}>
             <Link to="/">Home</Link>
           </Menu.Item>
@@ -35,7 +37,7 @@ function Dashboard({ children, logout }) {
           <Menu.Item key="orders" icon={<ShoppingCartOutlined style={{ fontSize: 20 }} />}>
             <Link to="orders">Orders</Link>
           </Menu.Item>
-          <Menu.Item key="delivery-tech" icon={<GiftOutlined style={{ fontSize: 20 }} />}>
+          <Menu.Item key="delivery" icon={<GiftOutlined style={{ fontSize: 20 }} />}>
             <Link to="delivery">Delivery Tech</Link>
           </Menu.Item>
           <SubMenu key="administration" icon={<SettingOutlined style={{ fontSize: 18 }} />} title="Administration">
