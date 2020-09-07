@@ -135,8 +135,8 @@ export default function useBROAPI(urlpath, extraOptions) {
   const [data, status, refresh] = useFetch(url, options);
 
   useEffect(() => {
-    if (status.isError && status.statusCode === 500) {
-      message.error("Oops! Something went wrong.", 3000);
+    if (status.isError && status.statusCode >= 500) {
+      message.error("Oops! Something went wrong.", 3);
     }
   }, [status]);
 

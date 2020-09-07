@@ -91,6 +91,7 @@ https://blog.rapid7.com/2016/07/13/quick-security-wins-in-golang/
 https://dev.to/johanlejdung/a-mini-guide-middleware-and-how-it-works-in-go-4coj
 https://stackoverflow.com/questions/58084494/golang-how-can-i-get-authorization-from-mux
 https://stackoverflow.com/questions/30249131/best-way-to-create-nested-array-from-tables-multiple-queries-loops-vs-single-qu
+https://stackoverflow.com/a/56929480/6748719
 
 https://stackoverflow.com/questions/45386614/mysql-invalid-default-value-for-timestamp
 https://www.eversql.com/mysql-datetime-vs-timestamp-column-types-which-one-i-should-use/#:~:text=DATETIME%20%2D%20%E2%80%9CThe%20DATETIME%20type%20is,both%20date%20and%20time%20parts.&text=TIMESTAMP%20%2D%20%E2%80%9CThe%20TIMESTAMP%20data%20type,14%3A07'%20UTC.%E2%80%9D

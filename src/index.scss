@@ -57,3 +57,7 @@ code {
 .ant-form-item-explain {
   font-size: 12px !important;
 }
+
+input:-webkit-autofill {
+  background-clip: text;
+}
