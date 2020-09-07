@@ -9,6 +9,8 @@ import useBROAPI, {
   useSalesUsers,
 } from "shared/hooks";
 
+import "./styles.scss";
+
 const layout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 18 },
@@ -73,7 +75,7 @@ function OrderCreate({ navigate }) {
     label: name,
   }));
   return (
-    <Form {...layout} id="order-create-form" style={{ width: "70%", marginTop: 32 }} onFinish={createOrder}>
+    <Form {...layout} id="order-create-form" onFinish={createOrder}>
       <Form.Item name="orderedById" label="Patient Name">
         <Select options={patientOptions} loading={patientsStatus.isLoading} />
       </Form.Item>
