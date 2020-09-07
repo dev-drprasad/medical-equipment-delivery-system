@@ -44,8 +44,18 @@ function OrderList({ navigate }) {
     setSearchText({ filters, searchText });
   };
 
+  const onRow = (order) => {
+    return {
+      onClick: (e) => {
+        if (e.target.tagName !== "A") {
+          navigate(`/orders/${order.id}`);
+        }
+      },
+    };
+  };
+
   const filtered = useMemo(() => orders.filter((o) => filters.every(([f, v]) => o[f] === v)), [orders, filters]);
-  console.log("filtered :>> ", filtered);
+
   const searched = useMemo(() => listsearch(filtered, searchFields, searchText), [searchText, filtered]);
 
   return (
@@ -65,7 +75,7 @@ function OrderList({ navigate }) {
       </ListActions>
       <NSHandler status={status}>
         {() => (
-          <Table dataSource={searched} rowKey="id">
+          <Table dataSource={searched} rowKey="id" onRow={onRow}>
             <Column title="Order ID" dataIndex="id" render={orderIdAnchored} sorter={sorters("id", "number")} />
             <Column title="Status" dataIndex="status" />
             <Column title="Date of Service" dataIndex="serviceDate" sorter={sorters("serviceDate", "date")} />

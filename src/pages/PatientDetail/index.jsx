@@ -22,9 +22,7 @@ function usePatient(id) {
 
 function PatientDetail({ id: idStr }) {
   const id = Number(idStr);
-  const [patient, status] = usePatient(
-    Number.isFinite(id) && id > 0 ? id : undefined
-  );
+  const [patient, status] = usePatient(Number.isFinite(id) && id > 0 ? id : undefined);
 
   return (
     <div className="order-detail">
@@ -51,12 +49,8 @@ function PatientDetail({ id: idStr }) {
                   </Descriptions.Item>
                 </Descriptions>
               </Card>
-              <Table dataSource={patient.orders}>
-                <Column
-                  title="Order ID"
-                  dataIndex="id"
-                  render={OrderIdAnchored}
-                />
+              <Table dataSource={patient.orders} rowKey="id">
+                <Column title="Order ID" dataIndex="id" render={OrderIdAnchored} />
                 <Column title="Status" dataIndex="status" />
                 <Column title="Date of Service" dataIndex="serviceDate" />
               </Table>

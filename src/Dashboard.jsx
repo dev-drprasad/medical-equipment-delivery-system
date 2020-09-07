@@ -1,6 +1,13 @@
 import "./Dashboard.scss";
 
-import { LogoutOutlined, UserAddOutlined, ShoppingCartOutlined, SettingOutlined, GiftOutlined } from "@ant-design/icons";
+import {
+  LogoutOutlined,
+  UserAddOutlined,
+  ShoppingCartOutlined,
+  SettingOutlined,
+  GiftOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
 
 import { Link } from "@reach/router";
 import { Layout, Menu } from "antd";
@@ -19,7 +26,7 @@ function Dashboard({ children, logout }) {
       <Sider>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={["home"]} defaultOpenKeys={["administration"]} mode="inline">
-          <Menu.Item key="home" icon={<UserAddOutlined style={{ fontSize: 20 }} />}>
+          <Menu.Item key="home" icon={<HomeOutlined style={{ fontSize: 20 }} />}>
             <Link to="/">Home</Link>
           </Menu.Item>
           <Menu.Item key="patients" icon={<UserAddOutlined style={{ fontSize: 20 }} />}>
