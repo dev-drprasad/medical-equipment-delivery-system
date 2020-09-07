@@ -109,3 +109,5 @@ team.id -> team.role ??
 doc path should start with /
 file download auth logic
 insuredBy 0 causes error
+
+created, verified, ready to deliver, delivered, canceled

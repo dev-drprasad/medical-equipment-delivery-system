@@ -13,7 +13,7 @@ import (
 func GetOrders(db *sqlx.DB) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		rows, err := db.Query("select o.id, o.status, o.serviceDate, p.accountId, p.firstName, p.lastName, p.phoneNumber, i.id, i.name, h.id, h.name from `order` as o left join `patient` as p on o.orderedBy = p.accountId left join `insurer` as i on o.insuredBy = i.id left join `physician` as h on o.prescribedBy = h.id WHERE o.id")
+		rows, err := db.Query("select o.id, o.status, o.serviceDate, p.accountId, p.firstName, p.lastName, p.phoneNumber, i.id, i.name, h.id, h.name from `order` as o left join `patient` as p on o.orderedBy = p.accountId left join `insurer` as i on o.insuredBy = i.id left join `physician` as h on o.prescribedBy = h.id")
 		if err != nil {
 			log.Println("Could not query orders", " : ", err)
 			w.WriteHeader(http.StatusInternalServerError)

@@ -18,9 +18,12 @@ function Dashboard({ children, logout }) {
     >
       <Sider>
         <div className="logo" />
-        <Menu theme="dark" defaultSelectedKeys={["patients"]} defaultOpenKeys={["administration"]} mode="inline">
+        <Menu theme="dark" defaultSelectedKeys={["home"]} defaultOpenKeys={["administration"]} mode="inline">
+          <Menu.Item key="home" icon={<UserAddOutlined style={{ fontSize: 20 }} />}>
+            <Link to="/">Home</Link>
+          </Menu.Item>
           <Menu.Item key="patients" icon={<UserAddOutlined style={{ fontSize: 20 }} />}>
-            <Link to="">Patients</Link>
+            <Link to="patients">Patients</Link>
           </Menu.Item>
           <Menu.Item key="orders" icon={<ShoppingCartOutlined style={{ fontSize: 20 }} />}>
             <Link to="orders">Orders</Link>

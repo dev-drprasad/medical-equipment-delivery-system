@@ -17,6 +17,7 @@ import UserList from "pages/UserList";
 import React, { useCallback, useState } from "react";
 import { ProtectedRoute } from "shared/components";
 import { AuthContext } from "shared/context";
+import Home from "pages/Home";
 
 const LS_USER_KEY = "rboUser";
 
@@ -48,7 +49,8 @@ function App() {
       <Router id="router">
         <Login path="login" />
         <ProtectedRoute user={user} component={Dashboard} logout={logout} path="/">
-          <PatientList path="/" />
+          <Home path="/" />
+          <PatientList path="/patients" />
           <PatientDetail path="patients/:id" />
           <InsurerList path="insurers" />
           <PhysicianList path="physicians" />

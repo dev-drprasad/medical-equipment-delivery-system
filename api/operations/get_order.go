@@ -42,7 +42,9 @@ func GetOrder(db *sqlx.DB) http.Handler {
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
-			o.Equipments = append(o.Equipments, &e)
+			if e.ID != nil {
+				o.Equipments = append(o.Equipments, &e)
+			}
 		}
 
 		b, err := json.Marshal(o)

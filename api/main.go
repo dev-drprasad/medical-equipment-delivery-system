@@ -100,6 +100,7 @@ func main() {
 	secure.Handle("/v1/orders/{id}/documents/upload", operations.UploadOrderDocument(db)).Methods("POST")
 	secure.Handle("/v1/orders/{id}/status", operations.UpdateOrderStatus(db)).Methods("POST")
 	secure.Handle("/v1/orders/{id}/appointment", operations.UpdateOrderAppointment(db)).Methods("POST")
+	secure.Handle("/v1/orders/aggregations/status/{status}", operations.GetOrderStatusAggregations(db)).Methods("GET")
 	secure.Handle("/v1/teams", operations.GetTeams(db)).Methods("GET")
 	secure.Handle("/v1/teams", operations.CreateTeam(db)).Methods("POST")
 	secure.Handle("/v1/users", operations.GetUsers(db)).Methods("GET")

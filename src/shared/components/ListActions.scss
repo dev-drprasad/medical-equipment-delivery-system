@@ -1,5 +1,22 @@
 .list-actions {
   display: flex;
-  justify-content: space-between;
   margin-bottom: 16px;
+  > * {
+    margin-right: 16px;
+  }
+  :last-child {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .ant-picker {
+    color: rgba(66, 82, 110, 1);
+    background-color: rgb(225, 227, 233);
+    &:not(.ant-picker-focused):not(:hover) {
+      border-color: transparent;
+    }
+    input {
+      color: inherit;
+    }
+  }
 }
