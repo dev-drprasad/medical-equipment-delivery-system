@@ -57,7 +57,7 @@ function Login() {
       />
 
       <Form.Item style={{ textAlign: "right" }}>
-        <Button type="primary" htmlType="submit" loading={status.isLoading} size="large">
+        <Button type="primary" htmlType="submit" loading={status.isLoading} size="large" block>
           Log in
         </Button>
       </Form.Item>

@@ -1,4 +1,4 @@
-import "./App.scss";
+import "./App.less";
 
 import { Router } from "@reach/router";
 import Dashboard from "Dashboard";

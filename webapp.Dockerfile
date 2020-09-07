@@ -14,6 +14,7 @@ ARG RBO_UI_RBO_API_BASE_URL
 
 COPY public /app/public
 COPY jsconfig.json /app
+COPY craco.config.js /app
 COPY src /app/src
 
 RUN npm run build

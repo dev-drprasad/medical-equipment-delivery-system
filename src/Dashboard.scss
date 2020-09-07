@@ -1,7 +1,16 @@
-.ant-layout-sider .logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
+.ant-layout-sider {
+  background: linear-gradient(135deg, rgb(85, 59, 180) 0%, rgb(184, 76, 224) 100%);
+  .logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+  }
+  .ant-menu {
+    background: transparent;
+    .ant-menu {
+      background: transparent;
+    }
+  }
 }
 
 .site-layout {
