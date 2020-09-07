@@ -257,7 +257,7 @@ function OrderDetail({ id: idStr }) {
                     {order.serviceDate ? moment(order.serviceDate).format("Do MMM YYYY") : NotAvailable}
                   </Descriptions.Item>
                   <Descriptions.Item label="Patient Name" span={1.5}>
-                    <Link to={`patients/${order.orderedBy.accountId}`}>
+                    <Link to={`/patients/${order.orderedBy.accountId}`}>
                       {order.orderedBy.firstName} {order.orderedBy.lastName} ({order.orderedBy.accountId})
                     </Link>
                   </Descriptions.Item>
@@ -271,14 +271,14 @@ function OrderDetail({ id: idStr }) {
                     {order.orderedBy.phoneNumber}
                   </Descriptions.Item>
                   <Descriptions.Item label="Physician Name" span={1.5}>
-                    <Link to={`physicians/${order.prescribedBy.id}`}>{order.prescribedBy.name}</Link>
+                    <Link to={`/physicians`}>{order.prescribedBy.name}</Link>
                   </Descriptions.Item>
                   <Descriptions.Item label="" span={1.5}></Descriptions.Item>
                   <Descriptions.Item label="Insurance ID" span={1.5}>
                     {order.orderedBy.insuranceID}
                   </Descriptions.Item>
                   <Descriptions.Item label="Insurance Company" span={1.5}>
-                    <Link to={`insurers/${order.insuredBy.id}`}>{order.insuredBy.name}</Link>
+                    <Link to={`/insurers`}>{order.insuredBy.name}</Link>
                   </Descriptions.Item>
                 </Descriptions>
               </Card>
