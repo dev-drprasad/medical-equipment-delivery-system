@@ -1,5 +1,4 @@
 .login-form {
-  background-color: white;
   width: 95%; // in mobile, looks good
   max-width: 400px;
   padding: 32px 48px 16px 48px;
@@ -15,5 +14,31 @@
     img {
       width: 75%;
     }
+  }
+}
+.ant-input-affix-wrapper {
+  background-color: rgb(225, 227, 233);
+  color: rgb(66, 82, 110);
+  &:not(.ant-input-affix-wrapper-focused):not(:hover) {
+    border-color: transparent;
+  }
+  .ant-input {
+    background-color: transparent !important;
+    color: inherit;
+    &:active,
+    &:hover,
+    &:focus {
+      background-color: inherit;
+      color: inherit;
+    }
+  }
+}
+// .ant-input {
+//   background-color: rgb(225, 227, 233) !important;
+// }
+.white-bg {
+  background-color: white;
+  .ant-input-affix-wrapper {
+    background-color: rgba(225, 227, 233, 0.65);
   }
 }

@@ -82,6 +82,8 @@ https://stackoverflow.com/questions/37785847/mysql-one-to-many-relationship-in-o
 https://stackoverflow.com/questions/15464564/join-two-tables-mysql-one-to-many-relationship
 https://stackoverflow.com/questions/11807650/mysql-one-to-many-join-with-group-by-only-returns-one-observation
 https://stackoverflow.com/questions/42248198/how-to-mount-a-single-file-in-a-volume
+https://tobiasahlin.com/blog/layered-smooth-box-shadows/
+https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete
 
 todo:
 https://golang.org/src/database/sql/example_test.go

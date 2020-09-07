@@ -9,10 +9,7 @@ import "./styles.scss";
 function useLogin() {
   const [body, setBody] = useState(undefined);
   const args = useMemo(
-    () =>
-      body
-        ? ["/api/v1/login", { method: "POST", body: JSON.stringify(body) }]
-        : [undefined, undefined],
+    () => (body ? ["/api/v1/login", { method: "POST", body: JSON.stringify(body) }] : [undefined, undefined]),
     [body]
   );
   const [user, status] = useBROAPI(...args);
@@ -40,41 +37,19 @@ function Login() {
   }, [u]);
 
   return (
-    <Form
-      className="login-form"
-      initialValues={{ remember: true }}
-      onFinish={handleFormSubmit}
-    >
+    <Form className="login-form white-bg" initialValues={{ remember: true }} onFinish={handleFormSubmit} autoComplete="off">
       <div className="logo-wrapper">
         <img src="/bro-logo.png" alt="bro logo" />
       </div>
-      <Form.Item
-        name="username"
-        rules={[{ required: true, message: "Input your username" }]}
-      >
-        <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Username"
-          size="large"
-          autoFocus
-          autoComplete="off"
-        />
+      <Form.Item name="username" rules={[{ required: true, message: "Input your username" }]}>
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" size="large" autoFocus />
       </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[{ required: true, message: "Input your password" }]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-          size="large"
-        />
+      <Form.Item name="password" rules={[{ required: true, message: "Input your password" }]}>
+        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" size="large" />
       </Form.Item>
       <Alert
         style={{
-          visibility:
-            status.isError && status.statusCode === 401 ? "visible" : "hidden",
+          visibility: status.isError && status.statusCode === 401 ? "visible" : "hidden",
           marginBottom: 16,
         }}
         message="Invalid username or password"
@@ -82,12 +57,7 @@ function Login() {
       />
 
       <Form.Item style={{ textAlign: "right" }}>
-        <Button
-          type="primary"
-          htmlType="submit"
-          loading={status.isLoading}
-          size="large"
-        >
+        <Button type="primary" htmlType="submit" loading={status.isLoading} size="large">
           Log in
         </Button>
       </Form.Item>
