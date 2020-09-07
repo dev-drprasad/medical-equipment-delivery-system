@@ -9,6 +9,8 @@ CREATE TABLE `patient` (
   PRIMARY KEY (`accountId`)
 )  AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
 
+ALTER TABLE `patient` ADD COLUMN  `createdAt` TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP(3) NOT NULL;
+
 CREATE TABLE `insurer` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,

@@ -86,6 +86,7 @@ func main() {
 	secure.Handle("/v1/patients", operations.GetPatients(db)).Methods("GET")
 	secure.Handle("/v1/patients", operations.AddPatient(db)).Methods("POST")
 	secure.Handle("/v1/patients/{id}", operations.GetPatient(db)).Methods("GET")
+	secure.Handle("/v1/patients/aggregations/new", operations.GetNewPatientsAggregated(db)).Methods("GET")
 	secure.Handle("/v1/insurers", operations.GetInsurers(db)).Methods("GET")
 	secure.Handle("/v1/insurers", operations.AddInsurer(db)).Methods("POST")
 	secure.Handle("/v1/physicians", operations.GetPhysicians(db)).Methods("GET")
