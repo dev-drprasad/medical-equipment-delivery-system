@@ -70,6 +70,16 @@ CREATE TABLE `user` (
 
 ALTER TABLE `user` ADD UNIQUE(`username`);
 
+CREATE TABLE `log` (
+  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
+  `createdAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `message` VARCHAR(255) NOT NULL,
+  `userId` int(6) unsigned NOT NULL,
+  `meta` JSON NOT NULL,
+  FOREIGN KEY (`userId`) REFERENCES user(`id`),
+  PRIMARY KEY(`id`)
+) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
+
 CREATE TABLE `comment` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `createdAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),

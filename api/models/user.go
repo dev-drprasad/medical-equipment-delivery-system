@@ -41,7 +41,7 @@ func (u *User) GenerateToken(sugar string) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["userId"] = u.ID
 	claims["username"] = u.Username
-	claims["exp"] = time.Now().Add(time.Hour * 24 * 30).Unix()
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	return token.SignedString([]byte(sugar))

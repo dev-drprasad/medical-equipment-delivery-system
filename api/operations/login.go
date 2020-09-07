@@ -59,6 +59,15 @@ func Login(db *sqlx.DB, sugar string) http.Handler {
 		w.Header().Add("X-Token", tokenStr)
 		w.WriteHeader(http.StatusOK)
 		w.Write(b)
+
+		l := models.Log{
+			Message: "logged in",
+			UserID:  u.ID,
+		}
+		_, err = db.Exec("INSERT INTO `log`(message, userId, meta) VALUES(?, ?, ?)", l.Message, l.UserID, "{}")
+		if err != nil {
+			log.Println("Logging failed <- ", err)
+		}
 		return
 	})
 }
