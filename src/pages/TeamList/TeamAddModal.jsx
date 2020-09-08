@@ -58,7 +58,7 @@ function UserAddModal({ onClose, onAdd }) {
         <Form.Item name="name" label="Name" rules={ruleReuired}>
           <Input />
         </Form.Item>
-        <Form.Item name="roleId" label="BRM Role">
+        <Form.Item name="roleId" label="BRM Role" rules={ruleReuired}>
           <Select options={roleOptions} loading={rolesStatus.isLoading} />
         </Form.Item>
       </Form>
