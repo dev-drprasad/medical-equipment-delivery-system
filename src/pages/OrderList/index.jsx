@@ -74,7 +74,7 @@ function OrderList({ navigate }) {
       </ListActions>
       <NSHandler status={status}>
         {() => (
-          <Table dataSource={searched} rowKey="id" onRow={onRow}>
+          <Table className="row-clickable" dataSource={searched} rowKey="id" onRow={onRow}>
             <Column title="Order ID" dataIndex="id" render={orderIdAnchored} sorter={sorters("id", "number")} />
             <Column title="Status" dataIndex="status" />
             <Column title="Date of Service" dataIndex="serviceDate" sorter={sorters("serviceDate", "date")} />

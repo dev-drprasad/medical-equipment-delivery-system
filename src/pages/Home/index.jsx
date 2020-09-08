@@ -23,12 +23,12 @@ function Home() {
               <AreaChart data={aggregatedOrders}>
                 <defs>
                   <linearGradient id="uvcolor" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#43ddc1" stopOpacity={0.95} />
+                    <stop offset="0%" stopColor="#00cc83" stopOpacity={0.95} />
                     <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#dddddd" />
-                <Area type="monotone" dataKey="count" stroke="#43ddc1" strokeWidth={2} fill="url(#uvcolor)" />
+                <Area type="monotone" dataKey="count" stroke="#00cc83" strokeWidth={2} fill="url(#uvcolor)" />
                 <Tooltip />
                 <XAxis dataKey="serviceDate" {...axisPros} tickFormatter={formatXAxis} />
                 <YAxis {...axisPros} width={32} />

@@ -12,7 +12,6 @@ code {
 
 #root {
   height: 100%;
-  background-color: #fbfbfc;
 }
 
 .right-align {
@@ -24,52 +23,22 @@ code {
 .ant-list {
   background-color: white;
   .ant-list-header {
-    // padding-left: 16px;
     font-weight: 500;
   }
-  // .ant-list-item {
-  //   padding-left: 16px;
-  //   padding-right: 16px;
-  // }
-}
-
-.ant-card.ant-card-small {
-  > .ant-card-head {
-    padding-left: 16px;
-    padding-right: 16px;
-    .ant-card-head-title {
-      padding: 12px 0 !important;
-    }
-  }
-  .ant-card-body {
-    padding: 16px;
-    > .ant-list.ant-list-sm.ant-list-bordered {
-      margin-top: -12px;
-      border: 1px solid transparent;
-      .ant-list-item {
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-  }
-}
-
-.ant-form-item-explain {
-  font-size: 12px !important;
 }
 
 input:-webkit-autofill {
   transition-delay: 3600s;
 }
 
-.ant-table {
-  background-color: inherit !important;
-  .ant-table-thead {
-    th {
-      background-color: inherit;
-    }
-  }
-  tbody {
-    background-color: white;
-  }
-}
+// .ant-table {
+//   background-color: inherit !important;
+//   .ant-table-thead {
+//     th {
+//       background-color: inherit;
+//     }
+//   }
+//   tbody {
+//     background-color: white;
+//   }
+// }

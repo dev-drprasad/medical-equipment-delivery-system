@@ -111,5 +111,11 @@ team.id -> team.role ??
 doc path should start with /
 file download auth logic
 insuredBy 0 causes error
+appointment as calender
+
+patient cards intead list -> https://dribbble.com/shots/10738178-Personal-Finance-UI
 
 created, verified, ready to deliver, delivered, canceled
+
+main ui:
+-> https://dribbble.com/shots/6433002-Profile-Stats-UI

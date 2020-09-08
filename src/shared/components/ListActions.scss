@@ -1,6 +1,6 @@
 .list-actions {
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   > * {
     margin-right: 16px;
   }
@@ -11,7 +11,7 @@
 
   .ant-picker {
     color: rgba(66, 82, 110, 1);
-    background-color: rgb(225, 227, 233);
+    // background-color: rgb(225, 227, 233);
     &:not(.ant-picker-focused):not(:hover) {
       border-color: transparent;
     }

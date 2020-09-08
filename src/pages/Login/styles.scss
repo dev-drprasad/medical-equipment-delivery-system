@@ -20,20 +20,22 @@
     }
   }
 }
-.ant-input-affix-wrapper {
-  background-color: rgb(225, 227, 233);
-  color: rgb(66, 82, 110);
-  &:not(.ant-input-affix-wrapper-focused):not(:hover) {
-    border-color: transparent;
-  }
-  .ant-input {
-    background-color: transparent !important;
-    color: inherit;
-    &:active,
-    &:hover,
-    &:focus {
-      background-color: inherit;
+.gray-bg {
+  .ant-input-affix-wrapper {
+    // background-color: rgb(225, 227, 233);
+    color: rgb(66, 82, 110);
+    &:not(.ant-input-affix-wrapper-focused):not(:hover) {
+      border-color: transparent;
+    }
+    .ant-input {
+      background-color: transparent !important;
       color: inherit;
+      &:active,
+      &:hover,
+      &:focus {
+        background-color: inherit;
+        color: inherit;
+      }
     }
   }
 }
@@ -42,7 +44,7 @@
 // }
 .white-bg {
   background-color: white;
-  .ant-input-affix-wrapper {
-    background-color: rgba(225, 227, 233, 0.65);
-  }
+  // .ant-input-affix-wrapper {
+  //   background-color: rgba(225, 227, 233, 0.65);
+  // }
 }

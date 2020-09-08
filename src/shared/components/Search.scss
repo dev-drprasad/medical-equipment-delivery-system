@@ -26,6 +26,13 @@
 .search-container {
   color: rgba(66, 82, 110, 1);
   background-color: rgb(225, 227, 233);
+  .ant-input-search {
+    .ant-input-suffix {
+      .anticon::before {
+        border-left-width: 0;
+      }
+    }
+  }
   .anticon-search {
     color: inherit;
   }
