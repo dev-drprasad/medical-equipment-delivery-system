@@ -11,7 +11,7 @@ const { Column } = Table;
 const NotAvailable = "N/A";
 
 function OrderIdAnchored(_, order) {
-  return <Link to={`/patients/${order.id}`}>{order.id}</Link>;
+  return <Link to={`/orders/${order.id}`}>{order.id}</Link>;
 }
 
 function usePatient(id) {

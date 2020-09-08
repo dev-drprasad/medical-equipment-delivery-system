@@ -38,31 +38,38 @@ function Login() {
   }, [u]);
 
   return (
-    <Form className="login-form white-bg" initialValues={{ remember: true }} onFinish={handleFormSubmit} autoComplete="off">
-      <div className="logo-wrapper">
-        <img src="/bro-logo.png" alt="bro logo" />
-      </div>
-      <Form.Item name="username" rules={[{ required: true, message: "Input your username" }]}>
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" size="large" autoFocus />
-      </Form.Item>
-      <Form.Item name="password" rules={[{ required: true, message: "Input your password" }]}>
-        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" size="large" />
-      </Form.Item>
-      <Alert
-        style={{
-          visibility: status.isError && status.statusCode === 401 ? "visible" : "hidden",
-          marginBottom: 16,
-        }}
-        message="Invalid username or password"
-        type="error"
-      />
+    <div className="login-page">
+      <Form className="login-form white-bg" initialValues={{ remember: true }} onFinish={handleFormSubmit} autoComplete="off">
+        <div className="logo-wrapper">
+          <img src="/bro-logo.png" alt="bro logo" />
+        </div>
+        <Form.Item name="username" rules={[{ required: true, message: "Input your username" }]}>
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" size="large" autoFocus />
+        </Form.Item>
+        <Form.Item name="password" rules={[{ required: true, message: "Input your password" }]}>
+          <Input
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Password"
+            size="large"
+          />
+        </Form.Item>
+        <Alert
+          style={{
+            visibility: status.isError && status.statusCode === 401 ? "visible" : "hidden",
+            marginBottom: 16,
+          }}
+          message="Invalid username or password"
+          type="error"
+        />
 
-      <Form.Item style={{ textAlign: "right" }}>
-        <Button type="primary" htmlType="submit" loading={status.isLoading} size="large" block>
-          Log in
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item style={{ textAlign: "right" }}>
+          <Button type="primary" htmlType="submit" loading={status.isLoading} size="large" block>
+            Log in
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 }
 
