@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 // import userService from "src/shared/services/user.service";
 
 import NS from "shared/utils/NS";
@@ -52,7 +52,8 @@ export function useFetch(url, opts) {
     if (!url || !rId) return;
 
     const abortctrl = new AbortController();
-    setResponse([undefined, new NS("LOADING")]);
+
+    setResponse(([, s]) => [undefined, s.clone("LOADING")]);
     const startTime = performance.now();
 
     // recursive merge might be better solution
@@ -84,7 +85,7 @@ export function useFetch(url, opts) {
         } catch (e) {
           const message = "Invalid JSON response from API";
           console.error(`${cr}API Error:${cr}${tab}URL: ${url}${cr}${tab}Msg: ${message}${cr}${tab}Code: ${res.status}`);
-          setResponse([undefined, new NS("ERROR", "", res.status, responseTime, rId, cached)]);
+          setResponse(([, s]) => [undefined, s.clone("ERROR", "", res.status, responseTime, rId, cached)]);
           return;
         }
 
@@ -92,19 +93,19 @@ export function useFetch(url, opts) {
           const errorType = body.error || "";
           const isInternalError = !errorType || errorType === "Internal Server Error";
           const message = !isInternalError ? body.message || "" : "";
-          setResponse([undefined, new NS("ERROR", message, res.status, responseTime, rId, cached, false, token)]);
+          setResponse(([, s]) => [undefined, s.clone("ERROR", message, res.status, responseTime, rId, cached, false, token)]);
           return;
         }
         const dataType = getType(body);
         const hasData = dataType !== "Null" && (dataType === "Array" ? body.length > 0 : true);
 
-        setResponse([body, new NS("SUCCESS", "", res.status, responseTime, rId, cached, hasData, token)]);
+        setResponse(([, s]) => [body, s.clone("SUCCESS", "", res.status, responseTime, rId, cached, hasData, token)]);
       })
       .catch((err) => {
         if (abortctrl.signal.aborted) return;
         const responseTime = performance.now() - startTime;
         console.error(`${cr}API Error:${cr}${tab}URL: ${url}${cr}${tab}Msg: ${err.message}${cr}${tab}Code: 0`);
-        setResponse([undefined, new NS("ERROR", "", 0, responseTime, rId)]);
+        setResponse(([, s]) => [undefined, s.clone("ERROR", "", 0, responseTime, rId)]);
       });
 
     return () => abortctrl.abort();
@@ -133,7 +134,8 @@ export default function useBROAPI(urlpath, extraOptions) {
   const [data, status, refresh] = useFetch(url, options);
 
   useEffect(() => {
-    if (status.isError && status.statusCode >= 500) {
+    console.log("status.erroCaught :>> ", status.erroCaught);
+    if (!status.erroCaught && status.statusCode >= 400) {
       message.error("Oops! Something went wrong.", 3);
     }
   }, [status]);
@@ -157,7 +159,7 @@ export const mergeStatuses = (...statuses) => {
     ? "LOADING" // [SUCCESS, INIT]
     : "INIT"; // [INIT, INIT]
 
-  return new NS(status, message, statusCode, 0, 0, "", false, hasData);
+  return new NS(status, message, statusCode, 0, "", false, hasData);
 };
 
 export function useInsurerIdAndNames() {

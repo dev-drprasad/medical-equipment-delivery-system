@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { Modal, Form, Input, message, Select } from "antd";
 import useBROAPI, { useRoles } from "shared/hooks";
+import { NS } from "shared/utils";
 
 const layout = {
   labelCol: { span: 8 },
@@ -38,6 +39,7 @@ function UserAddModal({ onClose, onAdd }) {
       message.error("Oops! Failed to add new team");
     }
   }, [status]);
+
   const roleOptions = roles.map(({ id, name }) => ({ value: id, label: name }));
   return (
     <Modal
@@ -58,7 +60,7 @@ function UserAddModal({ onClose, onAdd }) {
         <Form.Item name="name" label="Name" rules={ruleReuired}>
           <Input />
         </Form.Item>
-        <Form.Item name="roleId" label="BRM Role" rules={ruleReuired}>
+        <Form.Item name="roleId" label="BRM Role">
           <Select options={roleOptions} loading={rolesStatus.isLoading} />
         </Form.Item>
       </Form>
