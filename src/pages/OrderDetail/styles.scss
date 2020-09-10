@@ -1,6 +1,6 @@
 .order-detail {
   display: grid;
-  grid-template-columns: 70% auto;
+  grid-template-columns: 3fr 1fr;
   column-gap: 16px;
   .column-left {
     .ant-card {

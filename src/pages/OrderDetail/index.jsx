@@ -11,11 +11,11 @@ import {
   Form,
   Select,
   message,
-  DatePicker,
   Card,
   Upload,
   Typography,
   Table,
+  ConfigProvider,
 } from "antd";
 import { Link } from "@reach/router";
 import "./styles.scss";
@@ -23,7 +23,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { AuthContext } from "shared/context";
 import { getInitialsFromName } from "shared/utils";
-import ListActions from "shared/components/ListActions";
+import { ListActions, DatePickerPanel } from "shared/components";
 import EquipmentOrderAddModal from "./EquipmentOrderAddModal";
 
 const { Dragger } = Upload;
@@ -284,7 +284,7 @@ function OrderDetail({ id: idStr }) {
               </Card>
               <ListActions>
                 <h4 style={{ marginBottom: 0 }}>Equipments</h4>
-                <Button type="primary" onClick={showAddEquipmentModal} ghost>
+                <Button type="link" onClick={showAddEquipmentModal}>
                   Update Equipments
                 </Button>
               </ListActions>
@@ -332,61 +332,64 @@ function OrderDetail({ id: idStr }) {
             </div>
             <div className="column-right">
               <Card size="small" title="Appointment">
-                <DatePicker
-                  style={{ width: "100%" }}
+                <DatePickerPanel
                   onChange={handleAppointmentChange}
                   loading={updateAppointmentStatus.isLoading}
                   disabled={updateAppointmentStatus.isLoading}
                   defaultValue={order.appointment ? moment(order.appointment) : undefined}
                 />
               </Card>
-              <Card size="small" title="Sales Persons">
-                <List
-                  dataSource={saleUsers}
-                  renderItem={(user) => <List.Item>{user.name}</List.Item>}
-                  loading={saleUsersStatus.isLoading}
-                  size="small"
-                  bordered
-                />
-              </Card>
-              <Card size="small" title="Documents">
-                <List
-                  className="document-list"
-                  dataSource={documents}
-                  renderItem={(document) => (
-                    <List.Item>
-                      <div>
-                        <Typography.Text ellipsis>
-                          <a target="_blank" rel="noopener noreferrer" href={`/api/${document.path}?__token=${user?.token}`}>
-                            {document.name}
-                          </a>
-                        </Typography.Text>
-                        <div style={{ color: "rgba(0,0,0,0.45)", fontSize: 11 }}>
-                          @ {moment(document.createdAt).format("Do MMM YYYY HH:mm A")}
+              <ConfigProvider renderEmpty={() => <div>No sales persons assigned</div>}>
+                <Card size="small" title="Sales Persons">
+                  <List
+                    dataSource={saleUsers}
+                    renderItem={(user) => <List.Item>{user.name}</List.Item>}
+                    loading={saleUsersStatus.isLoading}
+                    size="small"
+                    bordered
+                  />
+                </Card>
+              </ConfigProvider>
+              <ConfigProvider renderEmpty={() => <div>No documents uploaded</div>}>
+                <Card size="small" title="Documents">
+                  <List
+                    className="document-list"
+                    dataSource={documents}
+                    renderItem={(document) => (
+                      <List.Item>
+                        <div>
+                          <Typography.Text ellipsis>
+                            <a target="_blank" rel="noopener noreferrer" href={`/api/${document.path}?__token=${user?.token}`}>
+                              {document.name}
+                            </a>
+                          </Typography.Text>
+                          <div style={{ color: "rgba(0,0,0,0.45)", fontSize: 11 }}>
+                            @ {moment(document.createdAt).format("Do MMM YYYY HH:mm A")}
+                          </div>
                         </div>
-                      </div>
-                    </List.Item>
-                  )}
-                  loading={documentsStatus.isLoading}
-                  size="small"
-                  bordered
-                />
-                <Dragger
-                  className="document-uploader"
-                  accept=".pdf"
-                  beforeUpload={() => false}
-                  onChange={handleDocumentChange}
-                  disabled={uploadDocumentStatus.isLoading}
-                  fileList={[]}
-                >
-                  <p className="ant-upload-drag-icon">
-                    <PlusOutlined />
-                  </p>
-                  <p className="ant-upload-hint">
-                    {uploadDocumentStatus.isLoading ? "Uploading..." : "Click to upload document"}
-                  </p>
-                </Dragger>
-              </Card>
+                      </List.Item>
+                    )}
+                    loading={documentsStatus.isLoading}
+                    size="small"
+                    bordered
+                  />
+                  <Dragger
+                    className="document-uploader"
+                    accept=".pdf"
+                    beforeUpload={() => false}
+                    onChange={handleDocumentChange}
+                    disabled={uploadDocumentStatus.isLoading}
+                    fileList={[]}
+                  >
+                    <p className="ant-upload-drag-icon">
+                      <PlusOutlined />
+                    </p>
+                    <p className="ant-upload-hint">
+                      {uploadDocumentStatus.isLoading ? "Uploading..." : "Click to upload document"}
+                    </p>
+                  </Dragger>
+                </Card>
+              </ConfigProvider>
             </div>
             {shouldShowAddEquipmentModal && (
               <EquipmentOrderAddModal

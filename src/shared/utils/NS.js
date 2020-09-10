@@ -15,7 +15,6 @@ export default class NS {
     token,
     errorCaught = false
   ) {
-    console.log("errorCaught :>> ", errorCaught);
     this.code = status;
     this.message = message;
     this.statusCode = statusCode;
@@ -24,7 +23,7 @@ export default class NS {
     this.requestId = requestId;
     this.cached = cached;
     this.token = token;
-    this.erroCaught = errorCaught;
+    this.errorCaught = errorCaught;
   }
 
   get isInit() {
@@ -36,7 +35,7 @@ export default class NS {
   }
 
   get isError() {
-    this.erroCaught = true;
+    this.errorCaught = true;
     return this.code === "ERROR";
   }
 
@@ -54,7 +53,7 @@ export default class NS {
       requestId === undefined ? this.requestId : requestId,
       cached === undefined ? this.cached : cached,
       token === undefined ? this.token : token,
-      errorCaught === undefined ? this.erroCaught : errorCaught
+      errorCaught === undefined ? this.errorCaught : errorCaught
     );
   }
 
