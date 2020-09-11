@@ -19,6 +19,12 @@ function useUpdateAppointment(id) {
   return [data, setPayload, status];
 }
 
+const confirmTitleRender = (d) => (
+  <>
+    Reschedule to <strong>{d.format("Do MMM")}</strong> ?
+  </>
+);
+
 export default function OrderAppointment({ order }) {
   const [, updateAppointment, updateAppointmentStatus] = useUpdateAppointment(order?.id);
   const handleAppointmentChange = useCallback(
@@ -40,6 +46,9 @@ export default function OrderAppointment({ order }) {
   return (
     <Card size="small" title="Appointment">
       <SafeDatePickerPanel
+        okText="Do it"
+        cancelText="Nope"
+        confirmTitleRender={confirmTitleRender}
         onChange={handleAppointmentChange}
         loading={updateAppointmentStatus.isLoading}
         disabled={updateAppointmentStatus.isLoading}
