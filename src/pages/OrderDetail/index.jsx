@@ -23,8 +23,9 @@ import { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { AuthContext } from "shared/context";
 import { getInitialsFromName } from "shared/utils";
-import { ListActions, DatePickerPanel } from "shared/components";
+import { ListActions } from "shared/components";
 import EquipmentOrderAddModal from "./EquipmentOrderAddModal";
+import OrderAppointment from "./OrderAppointment";
 
 const { Dragger } = Upload;
 const { Column } = Table;
@@ -76,20 +77,6 @@ function useUpdateOrderStatus(id) {
   const args = useMemo(
     () =>
       payload ? [`/api/v1/orders/${id}/status`, { method: "POST", body: JSON.stringify(payload) }] : [undefined, undefined],
-    [payload, id]
-  );
-  const [data, status] = useBROAPI(...args);
-
-  return [data, setPayload, status];
-}
-
-function useUpdateAppointment(id) {
-  const [payload, setPayload] = useState(undefined);
-  const args = useMemo(
-    () =>
-      payload
-        ? [`/api/v1/orders/${id}/appointment`, { method: "POST", body: JSON.stringify(payload) }]
-        : [undefined, undefined],
     [payload, id]
   );
   const [data, status] = useBROAPI(...args);
@@ -153,7 +140,6 @@ function OrderDetail({ id: idStr }) {
   const [order, status, refresh] = useOrder(Number.isFinite(id) && id > 0 ? id : undefined);
   const [orderstatuses, orderstatusesStatus] = useOrderStatuses();
   const [, updateStatus, updateStatusStatus] = useUpdateOrderStatus(order?.id);
-  const [, updateAppointment, updateAppointmentStatus] = useUpdateAppointment(order?.id);
   const [, uploadDocument, uploadDocumentStatus] = useDocumentUploader(order?.id);
   const [comments, commentsStatus] = useComments(order?.id);
   const [saleUsers, saleUsersStatus] = useOrderSaleUsers(order?.id);
@@ -172,16 +158,6 @@ function OrderDetail({ id: idStr }) {
   const handleStatusChange = useCallback(
     (status) => {
       updateStatus({ status, id: order?.id });
-    },
-    [updateStatus, order]
-  );
-
-  const handleAppointmentChange = useCallback(
-    (appointment) => {
-      updateAppointment({
-        appointment: appointment.format("YYYY-MM-DD"),
-        id: order?.id,
-      });
     },
     [updateStatus, order]
   );
@@ -208,15 +184,6 @@ function OrderDetail({ id: idStr }) {
   }, [updateStatusStatus]);
 
   useEffect(() => {
-    if (updateAppointmentStatus.isSuccess) {
-      message.success("Appointment date updated successfully!");
-    }
-    if (updateAppointmentStatus.isError) {
-      message.error("Failed to update appointment date");
-    }
-  }, [updateAppointmentStatus]);
-
-  useEffect(() => {
     if (uploadDocumentStatus.isSuccess) {
       message.success("Document uploaded successfully!");
       refreshDocuments();
@@ -235,6 +202,7 @@ function OrderDetail({ id: idStr }) {
   const orderStatusStatus = updateStatusStatus.isInit
     ? orderstatusesStatus
     : mergeStatuses(orderstatusesStatus, updateStatusStatus);
+
   return (
     <div className="order-detail">
       <NSHandler status={status}>
@@ -331,14 +299,7 @@ function OrderDetail({ id: idStr }) {
               />
             </div>
             <div className="column-right">
-              <Card size="small" title="Appointment">
-                <DatePickerPanel
-                  onChange={handleAppointmentChange}
-                  loading={updateAppointmentStatus.isLoading}
-                  disabled={updateAppointmentStatus.isLoading}
-                  defaultValue={order.appointment ? moment(order.appointment) : undefined}
-                />
-              </Card>
+              <OrderAppointment order={order} />
               <ConfigProvider renderEmpty={() => <div>No sales persons assigned</div>}>
                 <Card size="small" title="Sales Persons">
                   <List
